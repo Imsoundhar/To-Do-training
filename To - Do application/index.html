@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://kit.fontawesome.com/152a7fb490.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body onload="currentDate()">
+    <!-- container  -->
+    <div class="container">
+        <!-- top container  -->
+        <div class="top-container">
+            <div class="todo-link">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </div>
+            <div class="todo-title">
+                <p>To do</p>
+            </div>
+            <div class="search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div> 
+            <div class="settings-icon">
+                <i class="fa-solid fa-gear"></i>
+            </div> 
+            <div class="question-icon">
+                <i class="fa-solid fa-question"></i>
+            </div>
+        </div>
+
+        <!-- left container -->
+        <div class="left-container">
+            <!-- left side content -->
+            <div class="navigation-bar">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="left-side-content">
+                <div class="user-list" id="test" onclick="leftContent()">
+                    <i class="fa-regular fa-sun"></i>
+                    <p class="left-notes-title">My day</p>
+                </div>
+                <div class="user-list">
+                    <i class="fa-regular fa-star"></i>
+                    <p class="left-notes-title">Important</p>
+                </div>
+                <div class="user-list">
+                    <i class="fa-regular fa-calendar"></i>
+                    <p class="left-notes-title">Planned</p>
+                </div>
+                <div class="user-list">
+                    <i class="fa-regular fa-user"></i>
+                    <p class="left-notes-title">Assigned to me</p>
+                </div>
+                <div class="user-list">
+                    <i class="fa-solid fa-house-user"></i>
+                    <p class="left-notes-title">Task</p>
+                </div>        
+            </div>
+            <hr>
+
+            <!-- new list information -->
+            <div class="new-list-info">
+                <ul id="my-list">
+                    <li>
+                        <div class="new-list">
+                            <i class="fa-solid fa-plus"></i>
+                            <div class="add-new-list">
+                                <input  id="new-list-item" type="text" placeholder="New List">
+                            </div>
+                        </div>
+                        <div  class="new-list-icon" >
+                            <i class="fa-regular fa-square-plus"></i>          
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- apps -->
+            <div class="apps">
+                <div class="mail">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <div class="calender">
+                    <i class="fa-regular fa-calendar"></i> 
+                </div>
+                <div class="people">
+                    <i class="fa-solid fa-user-group"></i>
+                </div>
+                <div class="files">
+                    <i class="fa-solid fa-paperclip"></i>
+                </div>
+                <div class="tick">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- right container  -->
+        <div class="right-container">
+            <div class="task-info">
+                <div class="task-title">
+                    <i class="fa-regular fa-sun"></i>
+                    <p id="right-myday">My day</p>
+                    <p>...</p>
+                    <div id="day"></div>
+                </div>
+                <div class="task-feature">
+                    <div class="sort">
+                        <p>Sort</p>
+                    </div>
+                    <div class="suggestions">
+                        <p>Suggestions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-task">
+                <div  class="task-radio">
+                    <input type="radio">
+                </div>
+                <div class="add-task-content-space" >
+                    <input type="text" placeholder="Add a task">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="javascript.js"></script>
+</body>
+</html>

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <script src="https://kit.fontawesome.com/152a7fb490.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
+
 <body>
     <!-- container  -->
     <div class="container">
@@ -19,12 +21,12 @@
             <div class="todo-title">
                 <p>To do</p>
             </div>
-            <div class="search-bar">         
+            <div class="search-bar">
                 <i class="fa-solid fa-magnifying-glass"></i>
-            </div> 
+            </div>
             <div class="settings-icon">
                 <i class="fa-solid fa-gear"></i>
-            </div> 
+            </div>
             <div class="question-icon">
                 <i class="fa-solid fa-question"></i>
             </div>
@@ -32,46 +34,14 @@
 
         <!-- left container -->
         <div class="left-container">
-            <!-- left side content -->
             <div class="navigation-bar">
                 <i class="fa-solid fa-bars"></i>
             </div>
-            
+
             <!-- left side content  -->
             <div class="left-side-content">
                 <ul id="user-list-unorder">
-                    <li>
-                        <div class="user-list" id="test" onclick="leftContent()">
-                            <i class="fa-regular fa-sun"></i>
-                            <p class="left-notes-title">My day</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-list">
-                            <i class="fa-regular fa-star"></i>
-                            <p class="left-notes-title">Important</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-list">
-                            <i class="fa-regular fa-calendar"></i>
-                            <p class="left-notes-title">Planned</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-list">
-                            <i class="fa-regular fa-user"></i>
-                            <p class="left-notes-title">Assigned to me</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="user-list">
-                            <i class="fa-solid fa-house-user"></i>
-                            <p class="left-notes-title">Task</p>
-                        </div> 
-                    </li> 
-                    <hr>  
-                </ul>      
+                </ul>
             </div>
 
             <!-- new list information -->
@@ -79,14 +49,13 @@
                 <div class="new-list">
                     <i class="fa-solid fa-plus"></i>
                     <div class="add-new-list">
-                        <input  id="new-list-item" type="text" placeholder="New List">
+                        <input id="new-list-item" type="text" placeholder="New List">
                     </div>
                 </div>
-                <div  class="new-list-icon" >
-                    <i class="fa-regular fa-square-plus"></i>          
+                <div class="new-list-icon">
+                    <i class="fa-regular fa-square-plus"></i>
                 </div>
             </div>
-            <!-- </div> -->
 
             <!-- apps -->
             <div class="apps-container">
@@ -94,7 +63,7 @@
                     <i class="fa-regular fa-envelope"></i>
                 </div>
                 <div class="bottom-app">
-                    <i class="fa-regular fa-calendar"></i> 
+                    <i class="fa-regular fa-calendar"></i>
                 </div>
                 <div class="bottom-app">
                     <i class="fa-solid fa-user-group"></i>
@@ -115,7 +84,6 @@
                     <i class="fa-regular fa-sun"></i>
                     <p id="right-myday">My day</p>
                     <p>...</p>
-                    
                 </div>
                 <div class="task-feature">
                     <div class="sort">
@@ -128,18 +96,31 @@
                 <div id="day"></div>
             </div>
 
-            <div class="add-task-container">
-                <div  class="task-radio">
-                    <input type="radio">
+            <div class="add-task-container" id="add-task-container">
+                <div class="add-task-input-container" id="add-task-input-container">
+                    <div class="task-radio">
+                        <i class="fa-regular fa-circle"></i>
+                    </div>
+                    <div class="task-input-container">
+                        <input id="right-task-input" type="text" placeholder="Add a task">
+                    </div>
                 </div>
-                <div class="task-input-container" >
-                    <input id="right-task-input" type="text" placeholder="Add a task">
+                <div class="add-task-feature-container">
+                    <i class="fa-regular fa-calendar-days"></i>
+                    <i class="fa-regular fa-bell"></i>
+                    <i class="fa-solid fa-repeat"></i>
                 </div>
             </div>
-            <div class="base-add-task-container">
+            <div id="user-task">
+                <div class="added-task-radio">
+                    <input type="radio" id="user-task-radio">
+                </div>
+                <div class="user-added-task"></div>
             </div>
         </div>
     </div>
     <script src="javascript.js"></script>
+
 </body>
+
 </html>

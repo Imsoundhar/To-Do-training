@@ -49,7 +49,7 @@ ul {
     display: inline-block;
     vertical-align: top;
     background-color: rgb(245, 245, 245);
-    width: 925px;
+    width: 973px;
     height: 560px;
 }
 
@@ -116,7 +116,7 @@ ul {
 
 .left-container .left-side-content {
     width: 292px;
-    height: 260px;
+    max-height: 400px;
     overflow: auto;
 }
 
@@ -163,11 +163,6 @@ ul {
 }
 
 /* new list */
-.left-container .new-list-info {
-    height: 188px;
-    overflow: auto;
-}
-
 #my-list li i:first-child {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -231,7 +226,9 @@ ul {
 /* left container apps  */
 .left-container .apps-container {
     height: 48px;
+    position: fixed;
     margin-bottom: 0;
+    bottom: 0;
 }
 
 .left-container .apps-container .bottom-app {
@@ -252,33 +249,33 @@ ul {
 }
 
 /* right container */
-.right-container .task-info {
+.right-container #task-info {
     padding: 20px 50px;
 }
 
-.right-container .task-info .task-title {
+.right-container #task-info .task-title {
     width: 640px;
     height: 41px;
     line-height: 41px;
     display: inline-block;
 }
 
-.right-container .task-info .task-title p {
+.right-container #task-info .task-title p {
     display: inline-block;
     margin-left: 10px;
 }
 
-.right-container .task-info .task-feature {
+.right-container #task-info .task-feature {
     display: inline-block;
     height: 41px;
     line-height: 41px;
 }
 
-.right-container .task-info .task-feature .sort {
+.right-container #task-info .task-feature .sort {
     display: inline-block;
 }
 
-.right-container .task-info .task-feature .suggestions {
+.right-container #task-info .task-feature .suggestions {
     display: inline-block;
     margin-left: 50px;
 }
@@ -294,7 +291,7 @@ ul {
 .right-container .add-task-container {
     margin-left: 30px;
     margin-right: 30px;
-    width: 840px;
+    width: 900px;
     height: 97px;
 }
 
@@ -302,7 +299,7 @@ ul {
     background-color: white;
     border-radius: 5px;
     margin-top: 15px;
-    width: 840px;
+    width: 900px;
     height: 52px;
 }
 
@@ -337,36 +334,74 @@ ul {
     box-shadow: 0.1px 0.1px 1px gray;
 }
 
+.right-container .add-task-container .add-task-feature-container .add-task-feature {
+    display: inline-block;
+    width: 820px;
+}
+
+
 .right-container .add-task-container .add-task-feature-container i {
     display: inline-block;
     margin-right: 15px;
     opacity: 0.8;
 }
 
+.right-container .add-task-container .add-button {
+    display: inline-block;
+    background-color: white;
+    width: 35px;
+    opacity: 0.5;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 12px;
+    box-shadow: 0.1px 0.1px 0.1px 0.4px black;
+}
+
 /* user task  */
 
-.right-container #user-task {
-    margin: 15px 30px 0px 30px;
-    width: 840px;
-    height: 52px;
-    line-height: 52px;
-    border-radius: 5px;
+.right-container .user-task {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 900px;
+    height: 300px;
+    max-height: 300px; 
+    overflow: auto;
 }
 
-.right-container #user-task .added-task-radio {
-    display: inline-block;
+.right-container .user-task #user-task-ul {
+    width: 900px;
+    height: 50px;
+}
+
+.right-container .user-task #user-task-ul .user-task-items {
+    margin-top: 20px;
+}
+
+.right-container .user-task #user-task-ul .user-task-items .task-radio {
     width: 50px;
-    height: 30px;
-    line-height: 30px;
+    height: 50px;
+    display: inline-block;
+    line-height: 50px;
     text-align: center;
-    background-color: green;
-    vertical-align: middle;
+    opacity: 0.5;
+    font-size: medium;
+    background-color: white;
 }
 
-.right-container #user-task .user-added-task {
+.right-container .user-task #user-task-ul .user-task-items  .user-task-info {
+    width: 800px;
+    background-color: white;
+    height: 50px;
     display: inline-block;
-    width: 700px;
-    height: 30px;
-    background-color: green;
-    vertical-align: middle;
+    vertical-align: top; 
 }
+
+.right-container .user-task #user-task-ul .user-task-items  .star-icon {
+    display: inline-block;
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    background-color: white;
+}   

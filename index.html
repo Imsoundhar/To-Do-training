@@ -25,7 +25,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div class="settings-icon">
-                <i class="fa-solid fa-gear"></i>
+                <i class="fa-solid fa-gesar"></i>
             </div>
             <div class="question-icon">
                 <i class="fa-solid fa-question"></i>
@@ -79,7 +79,7 @@
 
         <!-- right container  -->
         <div class="right-container">
-            <div class="task-info">
+            <div id="task-info">
                 <div class="task-title">
                     <i class="fa-regular fa-sun"></i>
                     <p id="right-myday">My day</p>
@@ -93,7 +93,7 @@
                         <p>Suggestions</p>
                     </div>
                 </div>
-                <div id="day"></div>
+                <div id="day"></div> 
             </div>
 
             <div class="add-task-container" id="add-task-container">
@@ -106,16 +106,30 @@
                     </div>
                 </div>
                 <div class="add-task-feature-container">
-                    <i class="fa-regular fa-calendar-days"></i>
-                    <i class="fa-regular fa-bell"></i>
-                    <i class="fa-solid fa-repeat"></i>
+                    <div class="add-task-feature">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <i class="fa-regular fa-bell"></i>
+                        <i class="fa-solid fa-repeat"></i>
+                    </div>
+                    <div class="add-button">Add</div>
                 </div>
+
             </div>
-            <div id="user-task">
-                <div class="added-task-radio">
-                    <input type="radio" id="user-task-radio">
-                </div>
-                <div class="user-added-task"></div>
+            <div class="user-task">
+                <ul id="user-task-ul">
+                    <!-- <div class="user-task-items">
+                        <div class="task-radio">
+                            <i class="fa-regular fa-circle"></i>
+                        </div>
+                        <div class="user-task-info">
+                            <p>test</p>
+                            <p>task</p>
+                        </div>
+                        <div class="star-icon">
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div> -->
+                </ul>
             </div>
         </div>
     </div>

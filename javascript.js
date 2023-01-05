@@ -1,7 +1,7 @@
 
 (function () {
 
-    var category = [
+    let category = [
         {
             "id": 1,
             "category-name": "My day",
@@ -38,41 +38,50 @@
     const rightTaskInput = document.getElementById("right-task-input");
     const userTaskUl = document.getElementById("user-task-ul");
     const taskInfo = document.getElementById("task-info");
-    let selectCategory = 0;
+    let selectCategory = category[0];
     let tasks = [];
 
+    /**
+     * This method will initialize all the variables and methods.
+     */
     function init() {
         renderingCategory();
-        // newCategory();
-        // newTask();
         rightTitleChangeListener();
         eventListener();
-    }
-
-    function eventListener() {
-        userInputLeft.addEventListener('keypress', newCategory);
-        rightTaskInput.addEventListener('keypress', newTask);
+        defaultCategory();
     }
 
     /**
-     * It will give the current date for user in the right side container.
-     * @returns Date
+     * If user do something on the html element,
+     * this method will listen and create respective event.
      */
-    function currentDate() {
-        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const date = new Date();
-        let day = weekdays[date.getDay()];
-        let month = months[date.getMonth()];
-        let currentDate = day + ", " + month + " " + date.getDate();
-        const dateElementId = document.createElement('div');
-        dateElementId.classList.add("day");
-        dateElementId.innerHTML = currentDate;
-        return dateElementId;
+    function eventListener() {
+        userInputLeft.addEventListener('keypress', storeCategory);
+        rightTaskInput.addEventListener('keypress', storeTask);
     }
 
     /**
-     * This method is used to render the default category 
+     * The function is called when the user presses the enter key. It creates a new object with the
+     * user's input and pushes it to the category array. Then it calls the renderingCategory function
+     * to display the new category.
+     * @param event - The event object is a JavaScript object that contains information about the event
+     * that occurred.
+     */
+    function storeCategory(event) {
+        if (event.key === 'Enter') {
+            let newUserCategory = {
+                "id": category.length + 1,
+                "category-name": userInputLeft.value,
+                "icon": "<i class='fa-solid fa-list'/>"
+            }
+            category.push(newUserCategory);
+            renderingCategory();
+            userInputLeft.value = "";
+        }
+    }
+
+    /**
+     * This method is used to render the category.
      */
     function renderingCategory() {
         userListUnorder.innerHTML = "";
@@ -96,84 +105,63 @@
         }
     }
 
-    function renderingTask() {
-        const radioButtonDiv = document.createElement('div');
-        radioButtonDiv.className = "task-radio";
-        radioButtonDiv.innerHTML = " <i class='fa-regular fa-circle'></i>";
-        const userTaskInfoDiv = document.createElement('div');
-        userTaskInfoDiv.className = "user-task-info";
-        const p1 = document.createElement('p');
-        const p1node = document.createTextNode(rightTaskInput.value);
-        p1.innerHTML = p1node.textContent;
-        const p2 = document.createElement('p');
-        const p2node = document.createTextNode("task");
-        p2.innerHTML = p2node.textContent;
-        userTaskInfoDiv.appendChild(p1);
-        userTaskInfoDiv.appendChild(p2);
-        const staricon = document.createElement('div');
-        staricon.className = "star-icon";
-        staricon.innerHTML = "<i class='fa-regular fa-star'></i>";
-        const userTaskItems = document.createElement('div');
-        userTaskItems.className = "user-task-items";
-        userTaskItems.appendChild(radioButtonDiv);
-        userTaskItems.appendChild(userTaskInfoDiv);
-        userTaskItems.appendChild(staricon);
-        userTaskUl.appendChild(userTaskItems);
-        userTaskUl.insertBefore(userTaskItems, userTaskUl.children[0]);
-        storeTask();
-        rightTaskInput.value = "";
-    }
-
-    /*
-     * This method is used to create new category for user.
-     */
-    function newCategory(event) {
-        // userInputLeft.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            let newUserCategory = {
-                "id": category.length + 1,
-                "category-name": userInputLeft.value,
-                "icon": "<i class='fa-solid fa-list'/>"
-            }
-            category.push(newUserCategory);
-            renderingCategory();
-            userInputLeft.value = "";
-        }
-        // });
-    }
-
-    /**
-     * This method is used to create new task for user.
-     */
-    function newTask(event) {
-        // rightTaskInput.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            // storeTask();
-            renderingTask();
-
-        }
-        // });
-    }
-
     /**
      * This method is used to create storage for user task.
      */
-    function storeTask() {
-        let task = {
-            "id": tasks.length + 1,
-            "task-name": rightTaskInput.value,
-            "category-id": selectCategory
-        };
-        tasks.push(task);
-        getTask();
+    function storeTask(event) {
+        if (event.key === 'Enter' && rightTaskInput.value != 0) {
+            let task = {
+                "id": tasks.length + 1,
+                "task-name": rightTaskInput.value,
+                "category-id": selectCategory.id
+            };
+            tasks.push(task);
+            renderingTask();
+            getTask();
+        }
+    }
+
+    /**
+     * This method is used to create new task and render for each every new task.
+     */
+    function renderingTask() {
+        userTaskUl.innerHTML = "";
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i]["category-id"] == selectCategory.id) {
+                const radioButtonDiv = document.createElement('div');
+                radioButtonDiv.className = "task-radio";
+                radioButtonDiv.innerHTML = " <i class='fa-regular fa-circle'></i>";
+                const userTaskInfoDiv = document.createElement('div');
+                userTaskInfoDiv.className = "user-task-info";
+                const taskName = document.createElement('p');
+                const taskNameNode = document.createTextNode(tasks[i]["task-name"]);
+                taskName.innerHTML = taskNameNode.textContent;
+                const defaultTask = document.createElement('p');
+                const defaultTaskNode = document.createTextNode("task");
+                defaultTask.innerHTML = defaultTaskNode.textContent;
+                userTaskInfoDiv.appendChild(taskName);
+                userTaskInfoDiv.appendChild(defaultTask);
+                const starIcon = document.createElement('div');
+                starIcon.className = "star-icon";
+                starIcon.innerHTML = "<i class='fa-regular fa-star'></i>";
+                const userTaskItems = document.createElement('div');
+                userTaskItems.className = "user-task-items";
+                userTaskItems.appendChild(radioButtonDiv);
+                userTaskItems.appendChild(userTaskInfoDiv);
+                userTaskItems.appendChild(starIcon);
+                userTaskUl.appendChild(userTaskItems);
+                userTaskUl.insertBefore(userTaskItems, userTaskUl.children[0]);
+                rightTaskInput.value = "";
+            }
+        }
     }
 
     /**
      * This method is used to get task for devloper reference.
      */
     function getTask() {
-        for (var i = 0; i < tasks.length; i++) {
-            console.log("category id by get task method " + tasks[i]["category-id"]);
+        for (let i = 0; i < tasks.length; i++) {
+            console.log("category id by get task method " + tasks[i]["id"]);
             console.log("task id : " + tasks[i]["id"]);
             console.log("task name : " + tasks[i]["task-name"]);
         }
@@ -184,12 +172,23 @@
      * The topic name will change while user click on their category.
      */
     function rightTitleChangeListener() {
-        var list = document.getElementById("user-list-unorder").getElementsByTagName('li');
-        for (var i = 0; i < list.length; i++) {
+        let list = document.getElementById("user-list-unorder").getElementsByTagName('li');
+        for (let i = 0; i < list.length; i++) {
             list[i].addEventListener('click', function (event) {
-                selectCategory = this.id - 1;
+                selectCategory = category[this.id - 1];
+                // userTaskUl.innerHTML = "";
                 rightTitle();
             });
+        }
+    }
+
+    /**
+     * This method is used to show the default side category.
+     * @param {event} event 
+     */
+    function defaultCategory(event) {
+        if(event == null) {
+            rightTitle();
         }
     }
 
@@ -201,18 +200,35 @@
         taskInfo.innerHTML = "";
         const taskTitle = document.createElement("div");
         taskTitle.className = "task-title";
-        taskTitle.innerHTML = category[selectCategory].icon;
-        const p1 = document.createElement('p');
-        const p1node = document.createTextNode(category[selectCategory]["category-name"]);
-        p1.innerHTML = p1node.textContent;
-        const p2 = document.createElement('p');
-        const p2node = document.createTextNode("...");
-        p2.innerHTML = p2node.textContent;
-        taskTitle.appendChild(p1);
-        taskTitle.appendChild(p2);
+        taskTitle.innerHTML = selectCategory.icon;
+        const taskName = document.createElement('p');
+        const taskNameNode = document.createTextNode(selectCategory["category-name"]);
+        taskName.innerHTML = taskNameNode.textContent;
+        const dotsNearTitle = document.createElement('p');
+        const dotsNearTitleNode = document.createTextNode("...");
+        dotsNearTitle.innerHTML = dotsNearTitleNode.textContent;
+        taskTitle.appendChild(taskName);
+        taskTitle.appendChild(dotsNearTitle);
         taskInfo.appendChild(taskTitle);
         taskInfo.appendChild(currentDate());
-        storeTask();
+        renderingTask();
+    }
+
+    /**
+     * It will give the current date for user in the right side container.
+     * @returns Date
+     */
+    function currentDate() {
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const date = new Date();
+        let day = weekdays[date.getDay()];
+        let month = months[date.getMonth()];
+        let currentDate = day + ", " + month + " " + date.getDate();
+        const dateElementId = document.createElement('div');
+        dateElementId.classList.add("day");
+        dateElementId.innerHTML = currentDate;
+        return dateElementId;
     }
 
     init();

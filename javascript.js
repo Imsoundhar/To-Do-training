@@ -38,6 +38,7 @@
     const rightTaskInput = document.getElementById("right-task-input");
     const userTaskUl = document.getElementById("user-task-ul");
     const taskInfo = document.getElementById("task-info");
+    let categoryList = document.getElementById("user-list-unorder").getElementsByTagName('li');
     let selectCategory = category[0];
     let tasks = [];
 
@@ -75,8 +76,11 @@
                 "icon": "<i class='fa-solid fa-list'/>"
             }
             category.push(newUserCategory);
+            selectCategory = category[newUserCategory.id - 1];
             renderingCategory();
+            defaultCategory();
             userInputLeft.value = "";
+            rightTitleChangeListener();
         }
     }
 
@@ -102,7 +106,75 @@
             if (i == 4) {
                 userListUnorder.appendChild(document.createElement('hr'));
             }
+            if (i > 4) {
+                userListUnorder.insertBefore(li, userListUnorder.children[6]);
+            }
         }
+    }
+
+    /**
+     * This method is used to find an click event to change the right side.
+     * The topic name will change while user click on their category.
+     */
+    function rightTitleChangeListener() {
+        for (let i = 0; i < categoryList.length; i++) {
+            categoryList[i].addEventListener('click', function (event) {
+                selectCategory = category[this.id - 1];
+                rightTitle();
+                // userTaskUl.innerHTML = "";
+            });
+        }
+    }
+
+    /**
+     * This method is used to show the default side category.
+     * @param {event} event 
+     */
+    function defaultCategory(event) {
+        if (event == null) {
+            rightTitle();
+        }
+    }
+
+    /**
+     * This method is used to create title on right side while click on the left side.
+     * Then it will give the task details elaboratly.
+     */
+    function rightTitle() {
+        taskInfo.innerHTML = "";
+        const taskTitle = document.createElement("div");
+        taskTitle.className = "task-title";
+        taskTitle.innerHTML = selectCategory.icon;
+        const taskName = document.createElement('p');
+        const taskNameNode = document.createTextNode(selectCategory["category-name"]);
+        taskName.innerHTML = taskNameNode.textContent;
+        const dotsNearTitle = document.createElement('p');
+        const dotsNearTitleNode = document.createTextNode("...");
+        dotsNearTitle.innerHTML = dotsNearTitleNode.textContent;
+        taskTitle.appendChild(taskName);
+        taskTitle.appendChild(dotsNearTitle);
+        taskInfo.appendChild(taskTitle);
+        if (category[0].id == selectCategory.id) {
+            taskInfo.appendChild(currentDate());
+        }
+        renderingTask();
+    }
+
+    /**
+     * It will give the current date for user in the right side container.
+     * @returns Date
+     */
+    function currentDate() {
+        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const date = new Date();
+        let day = weekdays[date.getDay()];
+        let month = months[date.getMonth()];
+        let currentDate = day + ", " + month + " " + date.getDate();
+        const dateElementId = document.createElement('div');
+        dateElementId.classList.add("day");
+        dateElementId.innerHTML = currentDate;
+        return dateElementId;
     }
 
     /**
@@ -117,7 +189,6 @@
             };
             tasks.push(task);
             renderingTask();
-            getTask();
         }
     }
 
@@ -154,81 +225,6 @@
                 rightTaskInput.value = "";
             }
         }
-    }
-
-    /**
-     * This method is used to get task for devloper reference.
-     */
-    function getTask() {
-        for (let i = 0; i < tasks.length; i++) {
-            console.log("category id by get task method " + tasks[i]["id"]);
-            console.log("task id : " + tasks[i]["id"]);
-            console.log("task name : " + tasks[i]["task-name"]);
-        }
-    }
-
-    /**
-     * This method is used to find an click event to change the right side.
-     * The topic name will change while user click on their category.
-     */
-    function rightTitleChangeListener() {
-        let list = document.getElementById("user-list-unorder").getElementsByTagName('li');
-        for (let i = 0; i < list.length; i++) {
-            list[i].addEventListener('click', function (event) {
-                selectCategory = category[this.id - 1];
-                // userTaskUl.innerHTML = "";
-                rightTitle();
-            });
-        }
-    }
-
-    /**
-     * This method is used to show the default side category.
-     * @param {event} event 
-     */
-    function defaultCategory(event) {
-        if(event == null) {
-            rightTitle();
-        }
-    }
-
-    /**
-     * This method is used to create title on right side while click on the left side.
-     * Then it will give the task details elaboratly.
-     */
-    function rightTitle() {
-        taskInfo.innerHTML = "";
-        const taskTitle = document.createElement("div");
-        taskTitle.className = "task-title";
-        taskTitle.innerHTML = selectCategory.icon;
-        const taskName = document.createElement('p');
-        const taskNameNode = document.createTextNode(selectCategory["category-name"]);
-        taskName.innerHTML = taskNameNode.textContent;
-        const dotsNearTitle = document.createElement('p');
-        const dotsNearTitleNode = document.createTextNode("...");
-        dotsNearTitle.innerHTML = dotsNearTitleNode.textContent;
-        taskTitle.appendChild(taskName);
-        taskTitle.appendChild(dotsNearTitle);
-        taskInfo.appendChild(taskTitle);
-        taskInfo.appendChild(currentDate());
-        renderingTask();
-    }
-
-    /**
-     * It will give the current date for user in the right side container.
-     * @returns Date
-     */
-    function currentDate() {
-        const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const date = new Date();
-        let day = weekdays[date.getDay()];
-        let month = months[date.getMonth()];
-        let currentDate = day + ", " + month + " " + date.getDate();
-        const dateElementId = document.createElement('div');
-        dateElementId.classList.add("day");
-        dateElementId.innerHTML = currentDate;
-        return dateElementId;
     }
 
     init();

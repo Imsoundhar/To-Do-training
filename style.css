@@ -5,6 +5,11 @@ body {
     font-family: "Segoe", "Segoe UI", "Arial", "sans-serif";
 }
 
+
+#stylefor {
+    background-color: yellow;
+}
+
 input {
     background-color: transparent;
 }
@@ -20,7 +25,8 @@ p {
 
 ::-webkit-scrollbar {
     background-color: rgb(245, 245, 245);
-    width: 10px;
+    width: 8px;
+    height: 0;
     border-radius: 20px;
 }
 
@@ -49,7 +55,8 @@ ul {
     display: inline-block;
     vertical-align: top;
     background-color: rgb(245, 245, 245);
-    width: 973px;
+    /* width: 973px; */
+    width: 600px;
     height: 560px;
 }
 
@@ -155,7 +162,7 @@ ul {
 
 .left-container hr {
     width: 258px;
-    height: 1px;
+    height: 0.1px;
     margin: 9px 16px;
     margin-block: 0;
     opacity: 0.4;
@@ -194,13 +201,12 @@ ul {
 }
 
 .left-container .new-list-info .new-list .add-new-list input {
-    border: 1px;
     padding: 5px;
     outline: none;
+    border: 1px;  /* It will avoid border outline*/
 }
 
 .left-container .new-list-info .new-list-icon {
-    display: inline-block;
     display: inline-block;
     width: 55px;
     height: 50px;
@@ -208,7 +214,6 @@ ul {
     text-align: center;
 }
 
-.left-container .new-list:hover,
 .left-container .new-list-info .new-list-icon:hover {
     background-color: rgb(240, 240, 240);
 }
@@ -226,8 +231,7 @@ ul {
 /* left container apps  */
 .left-container .apps-container {
     height: 48px;
-    position: fixed;
-    margin-bottom: 0;
+    position: fixed; 
     bottom: 0;
 }
 
@@ -254,7 +258,8 @@ ul {
 }
 
 .right-container #task-info .task-title {
-    width: 640px;
+    /* width: 640px; */
+    width: 340px;
     height: 41px;
     line-height: 41px;
     display: inline-block;
@@ -281,7 +286,8 @@ ul {
 }
 
 #day {
-    width: 640px;
+    /* width: 640px; */
+    width: 340px;
     height: 20px;
     font-size: 12px;
     opacity: 0.7;
@@ -291,7 +297,8 @@ ul {
 .right-container .add-task-container {
     margin-left: 30px;
     margin-right: 30px;
-    width: 900px;
+    /* width: 900px; */
+    width: 500px;
     height: 97px;
 }
 
@@ -299,7 +306,8 @@ ul {
     background-color: white;
     border-radius: 5px;
     margin-top: 15px;
-    width: 900px;
+    /* width: 900px; */
+    width: 500px;
     height: 52px;
 }
 
@@ -318,7 +326,8 @@ ul {
 }
 
 .right-container .add-task-container .add-task-input-container .task-input-container input {
-    width: 500px;
+    /* width: 500px; */
+    width: 200px;
     padding: 0;
     height: 50px;
     border-style: hidden;
@@ -336,7 +345,8 @@ ul {
 
 .right-container .add-task-container .add-task-feature-container .add-task-feature {
     display: inline-block;
-    width: 820px;
+    /* width: 820px; */
+    width: 430px;
 }
 
 
@@ -363,14 +373,16 @@ ul {
 .right-container .user-task {
     margin-left: 30px;
     margin-right: 30px;
-    width: 900px;
+    /* width: 900px; */
+    width: 500px;
     height: 300px;
     max-height: 300px; 
     overflow: auto;
 }
 
 .right-container .user-task #user-task-ul {
-    width: 900px;
+    /* width: 900px; */
+    width: 500px;
     height: 50px;
 }
 
@@ -390,7 +402,8 @@ ul {
 }
 
 .right-container .user-task #user-task-ul .user-task-items  .user-task-info {
-    width: 800px;
+    /* width: 800px; */
+    width: 400px;
     background-color: white;
     height: 50px;
     display: inline-block;
@@ -404,4 +417,49 @@ ul {
     height: 50px;
     line-height: 50px;
     background-color: white;
-}   
+}  
+
+.task-detail-container {
+    width: 370px;
+    height: 560px;
+    display: inline-block;
+    background-color: green;
+    vertical-align: top;
+}
+
+.task-detail-container .detail-header  .detail-header-title-wrapper {
+    width: 340px;
+    background-color: white;
+    height: 50px;
+}
+
+.task-detail-container .detail-header {
+    padding: 15px;
+}
+
+.task-detail-container .detail-header .detail-header-title-wrapper .task-radio, .task-detail-container .detail-header .detail-header-title-wrapper .user-task-info, .task-detail-container .detail-header .detail-header-title-wrapper .star-icon {
+    display: inline-block;
+    text-align: center;
+    line-height: 50px;
+}
+
+.task-detail-container .detail-header .base-add-container {
+    margin-top: 5px;
+    background-color: white;
+    height: 50px;
+    line-height: 50px
+}
+
+.task-detail-container .detail-header .base-add-container .add-step-text {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.task-detail-container .detail-header .base-add-container .add-step-text input {
+    outline: none;
+    border:1px;
+}
+
+
+
+

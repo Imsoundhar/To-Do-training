@@ -33,22 +33,23 @@
         }
     ];
 
-    const userInputLeft = document.getElementById("new-list-item");
-    const userListUnOrder = document.getElementById("user-list-un-order");
-    const centerTaskInput = document.getElementById("center-task-input");
-    const userTaskUl = document.getElementById("user-task-ul");
+    const categoryInput = document.getElementById("new-list-item");
+    const categoryList = document.getElementById("user-list-un-order");
+    const taskInput = document.getElementById("center-task-input");
+    const taskList = document.getElementById("user-task-ul");
     const taskInfo = document.getElementById("task-info");
-    let categoryList = document.getElementById("user-list-un-order").getElementsByTagName('li');
+    let categoryItem = document.getElementById("user-list-un-order").getElementsByTagName('li');
     const centerRightContainer = document.getElementById("center-right-container");
     const addButtonForTask = document.getElementById("add-button");
-    const addNoteInput = document.getElementById("add-note-input");
-    const taskDetail = document.getElementById("task-detail");
+    const inputForAddNote = document.getElementById("add-note-input");
+    const detailedTaskContainer = document.getElementById("task-detail-container");
     let userSelectedTask = document.getElementById("user-selected-task");
-    let selectCategory = category[0];
+    let selectedCategory = category[0];
     let tasks = [];
-    let selectTask;
-    const userTaskItems = document.getElementsByClassName("user-task-items");
-    const closeSidePanelButton = document.getElementById("close-side-panel");
+    let selectedTask;
+    const userTaskItem = document.getElementsByClassName("user-task-items");
+    const sidePanelCloseButton = document.getElementById("close-side-panel");
+    const taskRadioTickButton = document.getElementsByClassName("task-radio").children;
 
     /**
      * This method will initialize all the variables and methods.
@@ -61,95 +62,86 @@
         close();
     }
 
-    function close() {
-        taskDetail.id = "task-detail-container-hide-display";
-    }
-
-    function closeSidePanel(event) {
-        if (event.type == "click") {
-            taskDetail.id = "task-detail-container-hide-display";
-            centerRightContainer.className = "center-right-container";
+    /**
+     * When the user clicks on a task, the task is displayed in the side panel.
+     */
+    function eventListener() {
+        categoryInput.addEventListener('keypress', storeCategory);
+        taskInput.addEventListener('keypress', storeTask);
+        addButtonForTask.addEventListener('click', storeTask);
+        sidePanelCloseButton.addEventListener('click', closeSidePanel);
+        inputForAddNote.addEventListener('keypress', addNotes);
+        for (let index = 0; index < userTaskItem.length; index++) {
+            userTaskItem[index].addEventListener('click', userSpecificTask);
         }
     }
 
-    function userSpecificTask(event) {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id == event.currentTarget.id) {
-                selectTask = tasks[i];
-                console.log("tasks[i].id : " + selectTask.id);
-                console.log("select task id : " + selectTask.id);
-                console.log("select task task name : " + selectTask["task-name"]);
-                console.log("select task category id : " + selectTask["category-id"]);
-                console.log("select task notes : " + selectTask["notes"]);
-                openSidePanel();
-            }
+
+    /**
+     * It's a function that hides the detailed task container when the user clicks the close button.
+     */
+    function close() {
+        detailedTaskContainer.id = "task-detail-container-hide-display";
+        eventListener();
+    }
+
+    /**
+     * If the event type is a click, then change the id of the detailedTaskContainer to
+     * task-detail-container-hide-display and change the class of the centerRightContainer to
+     * center-right-container.
+     * @param event - the event that is being listened for
+     */
+    function closeSidePanel(event) {
+        if (event.type == "click") {
+            detailedTaskContainer.id = "task-detail-container-hide-display";
+            centerRightContainer.className = "center-right-container";
         }
         eventListener();
     }
 
-    function openSidePanel() {
-        taskDetail.id = "task-detail-container";
-        centerRightContainer.className = "center-container";
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id == selectTask.id) {
-                userSelectedTask.value = selectTask["task-name"];
-                console.log("tasks[i][task-name] : " + tasks[i]["task-name"]);
-                getTask();
+    /**
+     * When a user clicks on a task, the task is selected and the side panel is opened.
+     * @param event - The event that triggered the function.
+     */
+    function userSpecificTask(event) {
+        for (let index = 0; index < tasks.length; index++) {
+            if (tasks[index].id == event.currentTarget.id) {
+                selectedTask = tasks[index];
+                openSidePanel();
             }
-            else {
-                console.log("else working");
-            }
-            eventListener();
-        }
-    }
-
-    function getTask() {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id == selectTask.id) {
-                userSelectedTask.value = selectTask["task-name"];
-                addNoteInput.value = selectTask["notes"];
-                console.log("tasks[i][task-name] : " + tasks[i]["task-name"]);
-            }
-            eventListener();
         }
     }
 
     /**
-     * If user do something on the html element,
-     * this method will listen and create respective event.
+     * When the user clicks on a task, the task's details are displayed in the right panel.
      */
-    function eventListener() {
-        userInputLeft.addEventListener('keypress', storeCategory);
-        centerTaskInput.addEventListener('keypress', storeTask);
-        addButtonForTask.addEventListener('click', storeTask);
-        closeSidePanelButton.addEventListener('click', closeSidePanel);
-        addNoteInput.addEventListener('keypress', addNotes);
-        for (let i = 0; i < tasks.length; i++) {
-            userTaskItems[i].addEventListener('click', userSpecificTask);
-        }
+    function openSidePanel() {
+        detailedTaskContainer.id = "task-detail-container";
+        centerRightContainer.className = "center-container";
+        userSelectedTask.value = selectedTask["task-name"];
+        getTask();
     }
 
+    /**
+     * The function gets the task name and notes from the selected task and puts them in the input
+     * fields.
+     */
+    function getTask() {
+        userSelectedTask.value = selectedTask["task-name"];
+        inputForAddNote.value = selectedTask["notes"];
+    }
 
+    /**
+     * The function adds notes to the selected task.
+     * @param event - the event that triggered the function
+     */
     function addNotes(event) {
         if (event.key == "Enter") {
-            selectTask.notes = addNoteInput.value;
-            for (let i = 0; i < tasks.length; i++) {
-                if (selectTask.id == tasks[i].id) {
-                    tasks[i].id = selectTask.id; 
-                    tasks[i]["task-name"] = selectTask["task-name"];
-                    tasks[i]["category-id"] = selectTask["category-id"];
-                    tasks[i]["notes"] = selectTask["notes"];
-
-                    console.log("tasks [i] : " + tasks[i].id);
-                    console.log("tasks [i] : " + tasks[i]["task-name"]);
-                    console.log("tasks [i] : " + tasks[i]["category-id"]);
-                    console.log("tasks [i] : " + tasks[i]["notes"]);
-                }
-            }
-            addNoteInput.value = "";
-            console.log("select task notes " + selectTask["notes"]);
+            selectedTask.notes = inputForAddNote.value;
+            tasks[index]["notes"] = selectedTask["notes"];
+            inputForAddNote.value = "";
+            eventListener();
         }
-
     }
 
     /**
@@ -160,17 +152,17 @@
      * that occurred.
      */
     function storeCategory(event) {
-        if (event.key === 'Enter' && userInputLeft.value != 0) {
+        if (event.key === 'Enter' && categoryInput.value != 0) {
             let newUserCategory = {
                 "id": category.length + 1,
-                "category-name": userInputLeft.value,
+                "category-name": categoryInput.value,
                 "icon": "<i class='fa-solid fa-list'/>"
             }
             category.push(newUserCategory);
-            selectCategory = category[newUserCategory.id - 1];
+            selectedCategory = category[newUserCategory.id - 1];
             renderCategory();
             defaultCategoryTitle();
-            userInputLeft.value = "";
+            categoryInput.value = "";
             centerTitleChangeListener();
         }
     }
@@ -179,82 +171,101 @@
      * This method is used to render the category.
      */
     function renderCategory() {
-        userListUnOrder.innerHTML = "";
-        for (i = 0; i < category.length; i++) {
+        categoryList.innerHTML = "";
+        for (index = 0; index < category.length; index++) {
             console.log(category);
             const li = document.createElement("li");
-            li.id = category[i].id;
+            li.id = category[index].id;
             const div = document.createElement("div");
             div.className = "user-list";
-            div.innerHTML = category[i].icon;
+            div.innerHTML = category[index].icon;
             const p = document.createElement("p");
             p.className = "left-notes-title";
-            const node = document.createTextNode(category[i]["category-name"]);
+            const node = document.createTextNode(category[index]["category-name"]);
             p.innerHTML = node.textContent;
             div.appendChild(p);
             li.appendChild(div);
-            userListUnOrder.appendChild(li);
-            if (i == 4) {
-                userListUnOrder.appendChild(document.createElement('hr'));
+            categoryList.appendChild(li);
+            if (index == 4) {
+                categoryList.appendChild(document.createElement('hr'));
             }
-            if (i > 4) {
-                userListUnOrder.insertBefore(li, userListUnOrder.children[6]);
+            if (index > 4) {
+                categoryList.insertBefore(li, categoryList.children[6]);
             }
         }
     }
-    
+
     /**
      * This method is used to create storage for user task.
      */
     function storeTask(event) {
-        if ((event.type === "click" || event.key === 'Enter') && centerTaskInput.value != 0) {
+        if ((event.type === "click" || event.key === 'Enter') && taskInput.value != 0) {
             let task = {
                 "id": tasks.length + 1,
-                "task-name": centerTaskInput.value,
-                "category-id": selectCategory.id,
+                "task-name": taskInput.value,
+                "category-id": selectedCategory.id,
                 "notes": ""
             };
-            selectTask = task;
+            selectedTask = task;
             tasks.push(task);
+            // convertIntoTaskCategory(selectedTask);
             renderTask();
         }
         eventListener();
     }
 
+    // function convertIntoTaskCategory(selectedTask) {
+    //     for (let i = 0; i < category.length; i++) {
+    //         if (selectedTask.id === ) {}
+
+    //     }
+    // }
+
     /**
      * This method is used to create new task and render each and every new task.
      */
     function renderTask() {
-        userTaskUl.innerHTML = "";
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i]["category-id"] == selectCategory.id) {
+        taskList.innerHTML = "";
+        for (let index = 0; index < tasks.length; index++) {
+            if (tasks[index]["category-id"] == selectedCategory.id) {
                 const radioButtonDiv = document.createElement('div');
                 radioButtonDiv.className = "task-radio";
                 radioButtonDiv.innerHTML = " <i class='fa-regular fa-circle'></i>";
                 const userTaskInfoDiv = document.createElement('div');
-                userTaskInfoDiv.id = tasks[i].id;
+                userTaskInfoDiv.id = tasks[index].id;
                 userTaskInfoDiv.className = "user-task-info";
                 const taskName = document.createElement('p');
-                const taskNameNode = document.createTextNode(tasks[i]["task-name"]);
+                const taskNameNode = document.createTextNode(tasks[index]["task-name"]);
                 taskName.innerHTML = taskNameNode.textContent;
-                const defaultTaskLabel = document.createElement('p');
-                const defaultTaskLabelNode = document.createTextNode("task");
-                defaultTaskLabel.innerHTML = defaultTaskLabelNode.textContent;
                 userTaskInfoDiv.appendChild(taskName);
-                userTaskInfoDiv.appendChild(defaultTaskLabel);
+                getTypeOfCategory(userTaskInfoDiv);
                 const starIcon = document.createElement('div');
                 starIcon.className = "star-icon";
                 starIcon.innerHTML = "<i class='fa-regular fa-star'></i>";
-                const userTaskItems = document.createElement('div');
-                userTaskItems.id = tasks[i].id;
-                userTaskItems.className = "user-task-items";
-                userTaskItems.appendChild(radioButtonDiv);
-                userTaskItems.appendChild(userTaskInfoDiv);
-                userTaskItems.appendChild(starIcon);
-                userTaskUl.appendChild(userTaskItems);
-                userTaskUl.insertBefore(userTaskItems, userTaskUl.children[0]);
-                centerTaskInput.value = "";
+                const userTaskItem = document.createElement('div');
+                userTaskItem.id = tasks[index].id;
+                userTaskItem.className = "user-task-items";
+                userTaskItem.appendChild(radioButtonDiv);
+                userTaskItem.appendChild(userTaskInfoDiv);
+                userTaskItem.appendChild(starIcon);
+                taskList.appendChild(userTaskItem);
+                taskList.insertBefore(userTaskItem, taskList.children[0]);
+                taskInput.value = "";
             }
+        }
+    }
+
+    /**
+     * If the id of the selected category is not equal to the id of the fourth element in the category
+     * array, then create a paragraph element and append it to the userTaskInfoDiv.
+     * @param userTaskInfoDiv - the div that the userTaskLabel will be appended to
+     */
+    function getTypeOfCategory(userTaskInfoDiv) {
+        if (category[4].id != selectedCategory.id) {
+            const defaultTaskLabel = document.createElement('p');
+            const defaultTaskLabelNode = document.createTextNode("task");
+            defaultTaskLabel.innerHTML = defaultTaskLabelNode.textContent;
+            userTaskInfoDiv.appendChild(defaultTaskLabel);
         }
     }
 
@@ -263,10 +274,12 @@
      * The topic name will change while user click on their category.
      */
     function centerTitleChangeListener() {
-        for (let i = 0; i < categoryList.length; i++) {
-            categoryList[i].addEventListener('click', function (event) {
-                selectCategory = category[event.currentTarget.id - 1];
+        for (let index = 0; index < categoryItem.length; index++) {
+            categoryItem[index].addEventListener('click', function (event) {
+                selectedCategory = category[event.currentTarget.id - 1];
                 centerTitle();
+                closeSidePanel(event);
+                eventListener();
             });
         }
     }
@@ -286,9 +299,9 @@
         taskInfo.innerHTML = "";
         const taskTitle = document.createElement("div");
         taskTitle.className = "task-title";
-        taskTitle.innerHTML = selectCategory.icon;
+        taskTitle.innerHTML = selectedCategory.icon;
         const taskName = document.createElement('p');
-        const taskNameNode = document.createTextNode(selectCategory["category-name"]);
+        const taskNameNode = document.createTextNode(selectedCategory["category-name"]);
         taskName.innerHTML = taskNameNode.textContent;
         const dotsNearTitle = document.createElement('p');
         const dotsNearTitleNode = document.createTextNode("...");
@@ -296,7 +309,7 @@
         taskTitle.appendChild(taskName);
         taskTitle.appendChild(dotsNearTitle);
         taskInfo.appendChild(taskTitle);
-        if (category[0].id == selectCategory.id) {
+        if (category[0].id == selectedCategory.id) {
             taskInfo.appendChild(currentDate());
         }
         renderTask();

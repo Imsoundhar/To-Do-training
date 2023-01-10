@@ -41,30 +41,10 @@ ul {
     padding: 0;
     margin: 0;
 }
-/* 
-#center-container-hide-display {
-    display: none;
-} */
-/* 
-#center-right-container-hide-display {
-    display: none;
-} */
 
 #task-detail-container-hide-display {
     display: none;
 }
-
-/* #center-container-show-display {
-    display: inline-block;
-} */
-
-/* #center-right-container-show-display {
-    display: inline-block;
-} */
-
-/* #task-detail-container-show-display {
-    display: inline-block;
-} */
 
 .top-container {
     height: 48px;

@@ -58,23 +58,22 @@ ul {
     display: inline-block;
 }
 
-.center-container, #center-container {
+.center-container,
+#center-container,
+.center-right-container  {
     display: inline-block;
     vertical-align: top;
     background-color: rgb(245, 245, 245);
     /* width: 973px; */
-    width: 600px;
     height: 560px;
 }
 
+.center-container {
+    width: 600px;
+}
 /*center right*/
 .center-right-container {
-    display: inline-block;
-    vertical-align: top;
-    background-color: rgb(245, 245, 245);
     width: 973px;
-    /* width: 600px; */
-    height: 560px;
 }
 
 .top-container .todo-link {
@@ -202,7 +201,6 @@ ul {
     color: rgb(26, 120, 221);
     display: inline-block;
     padding-left: 24px;
-
 }
 
 .left-container .new-list-info .new-list:hover {
@@ -268,141 +266,99 @@ ul {
     line-height: 48px;
 }
 
-/* center container */
-.center-container #task-info {
-    padding: 20px 50px;
-}
-
+.center-container #task-info,
 .center-right-container #task-info {
     padding: 20px 50px;
 }
 
-.center-container #task-info .task-title {
-    /* width: 640px; */
-    width: 340px;
+.center-container #task-info .task-title,
+.center-right-container #task-info .task-title {
     height: 41px;
     line-height: 41px;
     display: inline-block;
 }
 
-/*center right*/
+.center-container #task-info .task-title {
+    width: 340px;
+}
+
 .center-right-container #task-info .task-title {
     width: 640px;
-    /* width: 340px; */
-    height: 41px;
-    line-height: 41px;
-    display: inline-block;
 }
 
-.center-container #task-info .task-title p {
+.center-container #task-info .task-title p,
+.center-right-container #task-info .task-title p  {
     display: inline-block;
     margin-left: 10px;
 }
 
-/*center right*/
-.center-right-container #task-info .task-title p {
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.center-container #task-info .task-feature {
-    display: inline-block;
-    height: 41px;
-    line-height: 41px;
-}
-
-/*center right*/
+.center-container #task-info .task-feature,
 .center-right-container #task-info .task-feature {
     display: inline-block;
     height: 41px;
     line-height: 41px;
 }
 
-.center-container #task-info .task-feature .sort {
-    display: inline-block;
-}
-
-/*center right*/
+.center-container #task-info .task-feature .sort,
 .center-right-container #task-info .task-feature .sort {
     display: inline-block;
 }
 
-.center-container #task-info .task-feature .suggestions {
-    display: inline-block;
-    margin-left: 50px;
-}
-
-/*center right*/
+.center-container #task-info .task-feature .suggestions,
 .center-right-container #task-info .task-feature .suggestions {
     display: inline-block;
     margin-left: 50px;
 }
 
-.center-container #day {
+.center-container #day,
+.center-right-container #day  {
     /* width: 640px; */
-    width: 340px;
     height: 20px;
     font-size: 12px;
     opacity: 0.8;
 }
 
-/*center right*/
+.center-container #day {
+    width: 340px;
+}
+
 .center-right-container #day {
     width: 640px;
-    /* width: 340px; */
-    height: 20px;
-    font-size: 12px;
-    opacity: 0.8;
 }
 
-/* center container add task */
-.center-container .add-task-container {
-    margin-left: 30px;
-    margin-right: 30px;
-    /* width: 900px; */
-    width: 540px;
-    height: 97px;
-}
-
-/*center right*/
+.center-container .add-task-container,
 .center-right-container .add-task-container {
     margin-left: 30px;
     margin-right: 30px;
-    width: 900px;
-    /* width: 500px; */
     height: 97px;
 }
 
-.center-container .add-task-container .add-task-input-container {
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 15px;
-    /* width: 900px;*/
+.center-container .add-task-container {
     width: 540px;
-    height: 52px;
 }
 
-/*center right*/
+.center-right-container .add-task-container {
+    width: 900px;
+}
+
+.center-container .add-task-container .add-task-input-container,
 .center-right-container .add-task-container .add-task-input-container {
     background-color: white;
     border-radius: 5px;
     margin-top: 15px;
-    width: 900px;
-    /* width: 500px; */
+    /* width: 900px;*/
     height: 52px;
 }
 
-.center-container .add-task-container .add-task-input-container .task-radio {
-    width: 50px;
-    height: 50px;
-    display: inline-block;
-    line-height: 50px;
-    text-align: center;
-    opacity: 0.5;
-    font-size: medium;
+.center-container .add-task-container .add-task-input-container {
+    width: 540px;
 }
 
-/*center right*/
+.center-right-container .add-task-container .add-task-input-container {
+    width: 900px;
+}
+
+.center-container .add-task-container .add-task-input-container .task-radio,
 .center-right-container .add-task-container .add-task-input-container .task-radio {
     width: 50px;
     height: 50px;
@@ -413,45 +369,29 @@ ul {
     font-size: medium;
 }
 
-.center-container .add-task-container .add-task-input-container .task-input-container {
+.center-container .add-task-container .add-task-input-container .task-input-container,
+.center-right-container .add-task-container .add-task-input-container .task-input-container  {
     display: inline-block;
 }
 
-/*center right*/
-.center-right-container .add-task-container .add-task-input-container .task-input-container {
-    display: inline-block;
+.center-container .add-task-container .add-task-input-container .task-input-container input,
+.center-right-container .add-task-container .add-task-input-container .task-input-container input {
+    padding: 0;
+    height: 50px;
+    border-style: hidden;
+    border-radius: 5px;
+    outline: none;
 }
 
 .center-container .add-task-container .add-task-input-container .task-input-container input {
-    /* width: 500px; */
     width: 400px;
-    padding: 0;
-    height: 50px;
-    border-style: hidden;
-    border-radius: 5px;
-    outline: none;
 }
 
-/*center right*/
 .center-right-container .add-task-container .add-task-input-container .task-input-container input {
     width: 800px;
-    /* width: 400px; */
-    padding: 0;
-    height: 50px;
-    border-style: hidden;
-    border-radius: 5px;
-    outline: none;
 }
 
-.center-container .add-task-container .add-task-feature-container {
-    padding-left: 15px;
-    border-radius: 5px;
-    height: 45px;
-    line-height: 45px;
-    box-shadow: 0.1px 0.1px 1px gray;
-}
-
-/*center right*/
+.center-container .add-task-container .add-task-feature-container,
 .center-right-container .add-task-container .add-task-feature-container {
     padding-left: 15px;
     border-radius: 5px;
@@ -460,45 +400,27 @@ ul {
     box-shadow: 0.1px 0.1px 1px gray;
 }
 
-.center-container .add-task-container .add-task-feature-container .add-task-feature {
+.center-container .add-task-container .add-task-feature-container .add-task-feature,
+.center-right-container .add-task-container .add-task-feature-container .add-task-feature  {
     display: inline-block;
-    /* width: 820px; */
+}
+
+.center-container .add-task-container .add-task-feature-container .add-task-feature {
     width: 460px;
 }
 
-/*center right*/
 .center-right-container .add-task-container .add-task-feature-container .add-task-feature {
-    display: inline-block;
     width: 820px;
-    /* width: 430px; */
 }
 
-.center-container .add-task-container .add-task-feature-container i {
-    display: inline-block;
-    margin-right: 15px;
-    opacity: 0.8;
-}
-
-/*center right*/
+.center-container .add-task-container .add-task-feature-container i,
 .center-right-container .add-task-container .add-task-feature-container i {
     display: inline-block;
     margin-right: 15px;
     opacity: 0.8;
 }
 
-.center-container .add-task-container #add-button {
-    display: inline-block;
-    background-color: white;
-    width: 35px;
-    opacity: 0.5;
-    height: 25px;
-    line-height: 25px;
-    text-align: center;
-    font-size: 12px;
-    box-shadow: 0.1px 0.1px 0.1px 0.4px black;
-}
-
-/*center right*/
+.center-container .add-task-container #add-button,
 .center-right-container .add-task-container #add-button {
     display: inline-block;
     background-color: white;
@@ -511,61 +433,52 @@ ul {
     box-shadow: 0.1px 0.1px 0.1px 0.4px black;
 }
 
-.center-container .add-task-container #add-button:active {
-    background-color: greenyellow;
-}
-
-/*center right*/
+.center-container .add-task-container #add-button:active,
 .center-right-container .add-task-container #add-button:active {
     background-color: greenyellow;
 }
 
-
 /* user task  */
-.center-container .user-task {
-    margin-left: 30px;
-    margin-right: 30px;
-    /* width: 900px; */
-    width: 540px;
-    height: 300px;
-    max-height: 300px;
-    overflow: auto;
-}
-
-/*center right*/
+.center-container .user-task,
 .center-right-container .user-task {
     margin-left: 30px;
     margin-right: 30px;
-    width: 900px;
-    /* width: 500px; */
+    /* width: 900px; */
     height: 300px;
     max-height: 300px;
     overflow: auto;
 }
 
-.center-container .user-task #user-task-ul {
-    /* width: 900px; */
+.center-container .user-task {
     width: 540px;
+}
+
+.center-right-container .user-task {
+    width: 900px;
+}
+
+.center-container .user-task #user-task-ul,
+.center-right-container .user-task #user-task-ul {
     height: 50px;
 }
 
-/*center right*/
+.center-container .user-task #user-task-ul {
+    width: 540px;
+}
+
 .center-right-container .user-task #user-task-ul {
     width: 900px;
-    /* width: 500px; */
-    height: 50px;
 }
 
-.center-container .user-task #user-task-ul .user-task-items {
-    margin-top: 20px;
-}
-
-/*center right*/
+.center-container .user-task #user-task-ul .user-task-items,
 .center-right-container .user-task #user-task-ul .user-task-items {
     margin-top: 20px;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .task-radio {
+.center-container .user-task #user-task-ul .user-task-items .task-radio,
+.center-container .user-task #user-task-ul .user-task-items .task-radio-mark,
+.center-right-container .user-task #user-task-ul .user-task-items .task-radio,
+.center-right-container .user-task #user-task-ul .user-task-items .task-radio-mark {
     width: 50px;
     height: 50px;
     display: inline-block;
@@ -576,48 +489,25 @@ ul {
     background-color: white;
 }
 
-/*center right*/
-.center-right-container .user-task #user-task-ul .user-task-items .task-radio {
-    width: 50px;
+.center-container .user-task #user-task-ul .user-task-items .user-task-info,
+.center-right-container .user-task #user-task-ul .user-task-items .user-task-info {
+    /* width: 800px; */
+    background-color: white;
     height: 50px;
     display: inline-block;
-    line-height: 50px;
-    text-align: center;
-    opacity: 0.5;
-    font-size: medium;
-    background-color: white;
+    vertical-align: top;
 }
 
 .center-container .user-task #user-task-ul .user-task-items .user-task-info {
-    /* width: 800px; */
     width: 440px;
-    background-color: white;
-    height: 50px;
-    display: inline-block;
-    vertical-align: top;
 }
 
-/*center right*/
 .center-right-container .user-task #user-task-ul .user-task-items .user-task-info {
     width: 800px;
-    /* width: 400px; */
-    background-color: white;
-    height: 50px;
-    display: inline-block;
-    vertical-align: top;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .star-icon {
-    display: inline-block;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    background-color: white;
-}
-
-/*center right*/
-.center-right-container .user-task #user-task-ul .user-task-items .star-icon {
+.center-container .user-task #user-task-ul .user-task-items .star-icon,
+.center-right-container .user-task #user-task-ul .user-task-items .star-icon  {
     display: inline-block;
     text-align: center;
     width: 50px;
@@ -744,10 +634,7 @@ ul {
     line-height: 30px;
 }
 
-.task-detail-container .detail-header .task-elaborate-features .add-to-my-day-container:hover {
-    background-color: rgb(240, 240, 240);
-}
-
+.task-detail-container .detail-header .task-elaborate-features .add-to-my-day-container:hover,
 .task-detail-container .detail-header .task-elaborate-features .add-to-my-day-container button:hover {
     background-color: rgb(240, 240, 240);
 }
@@ -773,3 +660,4 @@ ul {
     width: 290px;
     text-align: center;
 }
+

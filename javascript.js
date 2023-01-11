@@ -3,33 +3,33 @@
 
     let category = [
         {
-            "id": 1,
-            "category-name": "My day",
-            "icon": "<i class='fa-regular fa-sun'></i>"
+            id: 1,
+            categoryName: "My day",
+            icon: "<i class='fa-regular fa-sun'></i>"
         },
 
         {
-            "id": 2,
-            "category-name": "Important",
-            "icon": "<i class='fa-regular fa-star'></i>"
+            id: 2,
+            categoryName: "Important",
+            icon: "<i class='fa-regular fa-star'></i>"
         },
 
         {
-            "id": 3,
-            "category-name": "Planned",
-            "icon": "<i class='fa-regular fa-calendar'></i>"
+            id: 3,
+            categoryName: "Planned",
+            icon: "<i class='fa-regular fa-calendar'></i>"
         },
 
         {
-            "id": 4,
-            "category-name": "Assigned to me",
-            "icon": "<i class='fa-regular fa-user'></i>"
+            id: 4,
+            categoryName: "Assigned to me",
+            icon: "<i class='fa-regular fa-user'></i>"
         },
 
         {
-            "id": 5,
-            "category-name": "Task",
-            "icon": "<i class='fa-solid fa-house-user'></i>"
+            id: 5,
+            categoryName: "Task",
+            icon: "<i class='fa-solid fa-house-user'></i>"
         }
     ];
 
@@ -48,8 +48,9 @@
     let tasks = [];
     let selectedTask;
     const userTaskItem = document.getElementsByClassName("user-task-items");
+    const userTaskInfo = document.getElementsByClassName("user-task-info");
     const sidePanelCloseButton = document.getElementById("close-side-panel");
-    const taskRadioTickButton = document.getElementsByClassName("task-radio").children;
+    const taskRadioTickButton = document.getElementsByClassName("task-radio");
 
     /**
      * This method will initialize all the variables and methods.
@@ -71,11 +72,40 @@
         addButtonForTask.addEventListener('click', storeTask);
         sidePanelCloseButton.addEventListener('click', closeSidePanel);
         inputForAddNote.addEventListener('keypress', addNotes);
-        for (let index = 0; index < userTaskItem.length; index++) {
-            userTaskItem[index].addEventListener('click', userSpecificTask);
+
+        for (let index = 0; index < userTaskInfo.length; index++) {
+            userTaskInfo[index].addEventListener('click', userSpecificTask);
+        }
+
+        for (let index = 0; index < taskRadioTickButton.length; index++) {
+            taskRadioTickButton[index].addEventListener('click', markCompletedTick);
         }
     }
 
+    /**
+     * If the event type is a click, then loop through the tasks array and if the event target id is
+     * equal to the task id, then if the task is completed, set it to false and add the class
+     * task-radio-mark, otherwise set it to true.
+     * @param event - The event object that is passed to the event handler.
+     */
+    function markCompletedTick(event) {
+        if (event.type == "click") {
+            for (let index = 0; index < tasks.length; index++) {
+                if (event.currentTarget.id == tasks[index].id) {
+                    if (tasks[index].isCompleted == true) {
+                        tasks[index].isCompleted = false;
+                        // taskRadioTickButton[index].classList.add("task-radio-mark");
+                    } else {
+                        tasks[index].isCompleted = true;
+                    }
+                    console.log(tasks[index]);
+                }
+            }
+            renderTask();
+            // eventListener();
+        }
+        eventListener();
+    }
 
     /**
      * It's a function that hides the detailed task container when the user clicks the close button.
@@ -100,7 +130,9 @@
     }
 
     /**
-     * When a user clicks on a task, the task is selected and the side panel is opened.
+     * It takes the id of the task that was clicked on and then compares it to the id of each task in the
+     * tasks array. If the id of the task that was clicked on matches the id of a task in the tasks
+     * array, then the task that was clicked on is assigned to the selectedTask variable.
      * @param event - The event that triggered the function.
      */
     function userSpecificTask(event) {
@@ -110,6 +142,7 @@
                 openSidePanel();
             }
         }
+        eventListener();
     }
 
     /**
@@ -118,7 +151,7 @@
     function openSidePanel() {
         detailedTaskContainer.id = "task-detail-container";
         centerRightContainer.className = "center-container";
-        userSelectedTask.value = selectedTask["task-name"];
+        userSelectedTask.value = selectedTask.taskName;
         getTask();
     }
 
@@ -127,8 +160,8 @@
      * fields.
      */
     function getTask() {
-        userSelectedTask.value = selectedTask["task-name"];
-        inputForAddNote.value = selectedTask["notes"];
+        userSelectedTask.value = selectedTask.taskName;
+        inputForAddNote.value = selectedTask.notes;
     }
 
     /**
@@ -138,7 +171,7 @@
     function addNotes(event) {
         if (event.key == "Enter") {
             selectedTask.notes = inputForAddNote.value;
-            tasks[index]["notes"] = selectedTask["notes"];
+            tasks[index].notes = selectedTask.notes;
             inputForAddNote.value = "";
             eventListener();
         }
@@ -154,9 +187,9 @@
     function storeCategory(event) {
         if (event.key === 'Enter' && categoryInput.value != 0) {
             let newUserCategory = {
-                "id": category.length + 1,
-                "category-name": categoryInput.value,
-                "icon": "<i class='fa-solid fa-list'/>"
+                id: category.length + 1,
+                categoryName: categoryInput.value,
+                icon: "<i class='fa-solid fa-list'/>"
             }
             category.push(newUserCategory);
             selectedCategory = category[newUserCategory.id - 1];
@@ -181,7 +214,7 @@
             div.innerHTML = category[index].icon;
             const p = document.createElement("p");
             p.className = "left-notes-title";
-            const node = document.createTextNode(category[index]["category-name"]);
+            const node = document.createTextNode(category[index].categoryName);
             p.innerHTML = node.textContent;
             div.appendChild(p);
             li.appendChild(div);
@@ -201,10 +234,11 @@
     function storeTask(event) {
         if ((event.type === "click" || event.key === 'Enter') && taskInput.value != 0) {
             let task = {
-                "id": tasks.length + 1,
-                "task-name": taskInput.value,
-                "category-id": selectedCategory.id,
-                "notes": ""
+                id: tasks.length + 1,
+                taskName: taskInput.value,
+                categoryId: selectedCategory.id,
+                notes: "",
+                isCompleted: false
             };
             selectedTask = task;
             tasks.push(task);
@@ -227,15 +261,12 @@
     function renderTask() {
         taskList.innerHTML = "";
         for (let index = 0; index < tasks.length; index++) {
-            if (tasks[index]["category-id"] == selectedCategory.id) {
-                const radioButtonDiv = document.createElement('div');
-                radioButtonDiv.className = "task-radio";
-                radioButtonDiv.innerHTML = " <i class='fa-regular fa-circle'></i>";
+            if (tasks[index].categoryId == selectedCategory.id) {
                 const userTaskInfoDiv = document.createElement('div');
                 userTaskInfoDiv.id = tasks[index].id;
                 userTaskInfoDiv.className = "user-task-info";
                 const taskName = document.createElement('p');
-                const taskNameNode = document.createTextNode(tasks[index]["task-name"]);
+                const taskNameNode = document.createTextNode(tasks[index].taskName);
                 taskName.innerHTML = taskNameNode.textContent;
                 userTaskInfoDiv.appendChild(taskName);
                 getTypeOfCategory(userTaskInfoDiv);
@@ -245,7 +276,7 @@
                 const userTaskItem = document.createElement('div');
                 userTaskItem.id = tasks[index].id;
                 userTaskItem.className = "user-task-items";
-                userTaskItem.appendChild(radioButtonDiv);
+                userTaskItem.appendChild(taskCompletedButton(index));
                 userTaskItem.appendChild(userTaskInfoDiv);
                 userTaskItem.appendChild(starIcon);
                 taskList.appendChild(userTaskItem);
@@ -253,6 +284,20 @@
                 taskInput.value = "";
             }
         }
+        eventListener();
+    }
+
+    function taskCompletedButton(index) {
+        const radioButtonContainer = document.createElement('div');
+        radioButtonContainer.id = tasks[index].id;
+        if (tasks[index].isCompleted == true) {
+            radioButtonContainer.className = "task-radio-mark";
+            radioButtonContainer.innerHTML = '<i class="fa-sharp fa-solid fa-circle-check"></i>';
+        } else {
+            radioButtonContainer.className = "task-radio";
+            radioButtonContainer.innerHTML = "<i class='fa-regular fa-circle'></i>";
+        }
+        return radioButtonContainer;
     }
 
     /**
@@ -301,7 +346,7 @@
         taskTitle.className = "task-title";
         taskTitle.innerHTML = selectedCategory.icon;
         const taskName = document.createElement('p');
-        const taskNameNode = document.createTextNode(selectedCategory["category-name"]);
+        const taskNameNode = document.createTextNode(selectedCategory.categoryName);
         taskName.innerHTML = taskNameNode.textContent;
         const dotsNearTitle = document.createElement('p');
         const dotsNearTitleNode = document.createTextNode("...");

@@ -1,3 +1,5 @@
+/* The above code is a to-do list application. It allows the user to create a category, add a task to a
+category, and add notes to a task. */
 
 (function () {
 
@@ -33,24 +35,25 @@
         }
     ];
 
+    const categoryItem = document.getElementById("user-list-un-order").getElementsByTagName('li');
+    const userSelectedTask = document.getElementById("user-selected-task");
     const categoryInput = document.getElementById("new-list-item");
     const categoryList = document.getElementById("user-list-un-order");
     const taskInput = document.getElementById("center-task-input");
     const taskList = document.getElementById("user-task-ul");
     const taskInfo = document.getElementById("task-info");
-    let categoryItem = document.getElementById("user-list-un-order").getElementsByTagName('li');
     const centerRightContainer = document.getElementById("center-right-container");
     const addButtonForTask = document.getElementById("add-button");
     const inputForAddNote = document.getElementById("add-note-input");
     const detailedTaskContainer = document.getElementById("task-detail-container");
-    let userSelectedTask = document.getElementById("user-selected-task");
-    let selectedCategory = category[0];
-    let tasks = [];
-    let selectedTask;
-    const userTaskItem = document.getElementsByClassName("user-task-items");
     const userTaskInfo = document.getElementsByClassName("user-task-info");
     const sidePanelCloseButton = document.getElementById("close-side-panel");
     const taskRadioTickButton = document.getElementsByClassName("task-radio");
+    const starIcon = document.getElementsByClassName("star-icon");
+
+    let selectedCategory = category[0];
+    let tasks = [];
+    let selectedTask;
 
     /**
      * This method will initialize all the variables and methods.
@@ -67,11 +70,11 @@
      * When the user clicks on a task, the task is displayed in the side panel.
      */
     function eventListener() {
-        categoryInput.addEventListener('keypress', storeCategory);
-        taskInput.addEventListener('keypress', storeTask);
-        addButtonForTask.addEventListener('click', storeTask);
-        sidePanelCloseButton.addEventListener('click', closeSidePanel);
+        categoryInput.addEventListener('keypress', addCategory);
+        taskInput.addEventListener('keypress', addTask);
         inputForAddNote.addEventListener('keypress', addNotes);
+        addButtonForTask.addEventListener('click', addTask);
+        sidePanelCloseButton.addEventListener('click', closeSidePanel);
 
         for (let index = 0; index < userTaskInfo.length; index++) {
             userTaskInfo[index].addEventListener('click', userSpecificTask);
@@ -79,6 +82,10 @@
 
         for (let index = 0; index < taskRadioTickButton.length; index++) {
             taskRadioTickButton[index].addEventListener('click', markCompletedTick);
+        }
+
+        for (let index = 0; index < starIcon.length; index++) {
+            starIcon[index].addEventListener('click', markAsImportant);
         }
     }
 
@@ -92,18 +99,37 @@
         if (event.type == "click") {
             for (let index = 0; index < tasks.length; index++) {
                 if (event.currentTarget.id == tasks[index].id) {
-                    if (tasks[index].isCompleted == true) {
-                        tasks[index].isCompleted = false;
-                        // taskRadioTickButton[index].classList.add("task-radio-mark");
-                    } else {
+                    if (tasks[index].isCompleted == false) {
                         tasks[index].isCompleted = true;
+                    } else {
+                        tasks[index].isCompleted = false;
                     }
-                    console.log(tasks[index]);
                 }
             }
-            renderTask();
-            // eventListener();
         }
+        renderTask();
+        eventListener();
+    }
+
+    /**
+     * If the event type is a click, then loop through the tasks array and if the event target id is
+     * equal to the task id, then if the task isImportant is false, then set it to true, otherwise set
+     * it to false.
+     * @param event - the event that was triggered
+     */
+    function markAsImportant(event) {
+        if (event.type == "click") {
+            for (let index = 0; index < tasks.length; index++) {
+                if (event.currentTarget.id == tasks[index].id) {
+                    if (tasks[index].isImportant == false) {
+                        tasks[index].isImportant = true;
+                    } else {
+                        tasks[index].isImportant = false;
+                    }
+                }
+            }
+        }
+        renderTask();
         eventListener();
     }
 
@@ -184,7 +210,7 @@
      * @param event - The event object is a JavaScript object that contains information about the event
      * that occurred.
      */
-    function storeCategory(event) {
+    function addCategory(event) {
         if (event.key === 'Enter' && categoryInput.value != 0) {
             let newUserCategory = {
                 id: category.length + 1,
@@ -231,29 +257,22 @@
     /**
      * This method is used to create storage for user task.
      */
-    function storeTask(event) {
+    function addTask(event) {
         if ((event.type === "click" || event.key === 'Enter') && taskInput.value != 0) {
             let task = {
                 id: tasks.length + 1,
                 taskName: taskInput.value,
                 categoryId: selectedCategory.id,
                 notes: "",
-                isCompleted: false
+                isCompleted: false,
+                isImportant: false
             };
             selectedTask = task;
             tasks.push(task);
-            // convertIntoTaskCategory(selectedTask);
             renderTask();
         }
         eventListener();
     }
-
-    // function convertIntoTaskCategory(selectedTask) {
-    //     for (let i = 0; i < category.length; i++) {
-    //         if (selectedTask.id === ) {}
-
-    //     }
-    // }
 
     /**
      * This method is used to create new task and render each and every new task.
@@ -270,15 +289,12 @@
                 taskName.innerHTML = taskNameNode.textContent;
                 userTaskInfoDiv.appendChild(taskName);
                 getTypeOfCategory(userTaskInfoDiv);
-                const starIcon = document.createElement('div');
-                starIcon.className = "star-icon";
-                starIcon.innerHTML = "<i class='fa-regular fa-star'></i>";
                 const userTaskItem = document.createElement('div');
                 userTaskItem.id = tasks[index].id;
                 userTaskItem.className = "user-task-items";
-                userTaskItem.appendChild(taskCompletedButton(index));
+                userTaskItem.appendChild(renderCompletedTaskByCheckList(index));
                 userTaskItem.appendChild(userTaskInfoDiv);
-                userTaskItem.appendChild(starIcon);
+                userTaskItem.appendChild(renderImportantTaskByStarIcon(index));
                 taskList.appendChild(userTaskItem);
                 taskList.insertBefore(userTaskItem, taskList.children[0]);
                 taskInput.value = "";
@@ -287,14 +303,43 @@
         eventListener();
     }
 
-    function taskCompletedButton(index) {
+    /**
+     * It creates a div element, assigns it an id and a class, and then adds a class to it if the task is
+     * important. 
+     * 
+     * It then adds an icon to the div element. 
+     * 
+     * Finally, it returns the div element.
+     * @param index - the index of the task in the tasks array
+     * @returns the starIconContainer.
+     */
+    function renderImportantTaskByStarIcon(index) {
+        const starIconContainer = document.createElement('div');
+        starIconContainer.id = tasks[index].id;
+        starIconContainer.className = "star-icon";
+        if (tasks[index].isImportant == true) {
+            starIconContainer.classList.add("star-icon-mark");
+            starIconContainer.innerHTML = "<i class='fa-solid fa-star'></i>";
+        } else {
+            starIconContainer.innerHTML = "<i class='fa-regular fa-star'></i>";
+        }
+        return starIconContainer;
+    }
+
+    /**
+     * If the task is completed, add the class 'task-radio-mark' and the innerHTML of the radio button
+     * container will be a checkmark, otherwise, the innerHTML will be a circle.
+     * @param index - the index of the task in the tasks array
+     * @returns The radioButtonContainer is being returned.
+     */
+    function renderCompletedTaskByCheckList(index) {
         const radioButtonContainer = document.createElement('div');
         radioButtonContainer.id = tasks[index].id;
+        radioButtonContainer.className = "task-radio";
         if (tasks[index].isCompleted == true) {
-            radioButtonContainer.className = "task-radio-mark";
+            radioButtonContainer.classList.add("task-radio-mark");
             radioButtonContainer.innerHTML = '<i class="fa-sharp fa-solid fa-circle-check"></i>';
         } else {
-            radioButtonContainer.className = "task-radio";
             radioButtonContainer.innerHTML = "<i class='fa-regular fa-circle'></i>";
         }
         return radioButtonContainer;

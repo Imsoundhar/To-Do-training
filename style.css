@@ -232,17 +232,11 @@ ul {
     background-color: rgb(240, 240, 240);
 }
 
-.left-container .new-list-info .new-list-icon:hover {
-    background-color: rgb(240, 240, 240);
-}
-
-
 .left-container .new-list-info .new-list-icon i {
     display: inline-block;
     line-height: 48px;
 }
 
-/* left container apps  */
 .left-container .apps-container {
     height: 48px;
     position: fixed;
@@ -312,7 +306,6 @@ ul {
 
 .center-container #day,
 .center-right-container #day  {
-    /* width: 640px; */
     height: 20px;
     font-size: 12px;
     opacity: 0.8;
@@ -346,7 +339,6 @@ ul {
     background-color: white;
     border-radius: 5px;
     margin-top: 15px;
-    /* width: 900px;*/
     height: 52px;
 }
 
@@ -438,12 +430,10 @@ ul {
     background-color: greenyellow;
 }
 
-/* user task  */
 .center-container .user-task,
 .center-right-container .user-task {
     margin-left: 30px;
     margin-right: 30px;
-    /* width: 900px; */
     height: 300px;
     max-height: 300px;
     overflow: auto;
@@ -476,9 +466,7 @@ ul {
 }
 
 .center-container .user-task #user-task-ul .user-task-items .task-radio,
-.center-container .user-task #user-task-ul .user-task-items .task-radio-mark,
-.center-right-container .user-task #user-task-ul .user-task-items .task-radio,
-.center-right-container .user-task #user-task-ul .user-task-items .task-radio-mark {
+.center-right-container .user-task #user-task-ul .user-task-items .task-radio {
     width: 50px;
     height: 50px;
     display: inline-block;
@@ -489,9 +477,13 @@ ul {
     background-color: white;
 }
 
+.center-container .user-task #user-task-ul .user-task-items .task-radio-mark,
+.center-right-container .user-task #user-task-ul .user-task-items .task-radio-mark {
+    color: blue;
+}
+
 .center-container .user-task #user-task-ul .user-task-items .user-task-info,
 .center-right-container .user-task #user-task-ul .user-task-items .user-task-info {
-    /* width: 800px; */
     background-color: white;
     height: 50px;
     display: inline-block;
@@ -514,6 +506,11 @@ ul {
     height: 50px;
     line-height: 50px;
     background-color: white;
+}
+
+.center-container .user-task #user-task-ul .user-task-items .star-icon-mark,
+.center-right-container .user-task #user-task-ul .user-task-items .star-icon-mark {
+    color: blue;
 }
 
 .task-detail-container {

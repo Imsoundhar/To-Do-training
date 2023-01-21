@@ -265,6 +265,18 @@ ul {
     padding: 20px 50px;
 }
 
+.center-container .task-status-header,
+.center-right-container .task-status-header {
+    padding: 20px 20px;
+    font-size: medium;
+}
+
+.center-container .task-status-header p,
+.center-right-container .task-status-header p {
+    padding-left: 10px;
+    display: inline-block;
+}
+
 .center-container #task-info .task-title,
 .center-right-container #task-info .task-title {
     height: 41px;
@@ -430,43 +442,38 @@ ul {
     background-color: greenyellow;
 }
 
-.center-container .user-task,
-.center-right-container .user-task {
+.center-container .user-task-container,
+.center-right-container .user-task-container {
     margin-left: 30px;
     margin-right: 30px;
-    height: 300px;
+    /* height: 300px; */
     max-height: 300px;
     overflow: auto;
 }
 
-.center-container .user-task {
+.center-container .user-task-container {
     width: 540px;
 }
 
-.center-right-container .user-task {
+.center-right-container .user-task-container {
     width: 900px;
 }
 
-.center-container .user-task #user-task-ul,
-.center-right-container .user-task #user-task-ul {
-    height: 50px;
-}
-
-.center-container .user-task #user-task-ul {
+.center-container .user-task-container #user-task-ul {
     width: 540px;
 }
 
-.center-right-container .user-task #user-task-ul {
+.center-right-container .user-task-container #user-task-ul {
     width: 900px;
 }
 
-.center-container .user-task #user-task-ul .user-task-items,
-.center-right-container .user-task #user-task-ul .user-task-items {
+.center-container .user-task-container #user-task-ul .user-task-items,
+.center-right-container .user-task-container #user-task-ul .user-task-items {
     margin-top: 20px;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .task-radio,
-.center-right-container .user-task #user-task-ul .user-task-items .task-radio {
+.center-container .user-task-container #user-task-ul .user-task-items .task-radio,
+.center-right-container .user-task-container #user-task-ul .user-task-items .task-radio {
     width: 50px;
     height: 50px;
     display: inline-block;
@@ -477,29 +484,34 @@ ul {
     background-color: white;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .task-radio-mark,
-.center-right-container .user-task #user-task-ul .user-task-items .task-radio-mark {
+.center-container .user-task-container #user-task-ul .user-task-items .task-radio-mark,
+.center-right-container .user-task-container #user-task-ul .user-task-items .task-radio-mark {
     color: blue;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .user-task-info,
-.center-right-container .user-task #user-task-ul .user-task-items .user-task-info {
+.selected-task {
+    background-color: black;
+    color: black;
+}
+
+.center-container .user-task-container #user-task-ul .user-task-items .user-task-info,
+.center-right-container .user-task-container #user-task-ul .user-task-items .user-task-info {
     background-color: white;
     height: 50px;
     display: inline-block;
     vertical-align: top;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .user-task-info {
+.center-container .user-task-container #user-task-ul .user-task-items .user-task-info {
     width: 440px;
 }
 
-.center-right-container .user-task #user-task-ul .user-task-items .user-task-info {
+.center-right-container .user-task-container #user-task-ul .user-task-items .user-task-info {
     width: 800px;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .star-icon,
-.center-right-container .user-task #user-task-ul .user-task-items .star-icon  {
+.center-container .user-task-container #user-task-ul .user-task-items .star-icon,
+.center-right-container .user-task-container #user-task-ul .user-task-items .star-icon  {
     display: inline-block;
     text-align: center;
     width: 50px;
@@ -508,8 +520,8 @@ ul {
     background-color: white;
 }
 
-.center-container .user-task #user-task-ul .user-task-items .star-icon-mark,
-.center-right-container .user-task #user-task-ul .user-task-items .star-icon-mark {
+.center-container .user-task-container #user-task-ul .user-task-items .star-icon-mark,
+.center-right-container .user-task-container #user-task-ul .user-task-items .star-icon-mark {
     color: blue;
 }
 

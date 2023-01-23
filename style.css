@@ -558,6 +558,7 @@ ul {
 }
 
 .task-detail-container .detail-header .task-elaborate-features {
+    /* margin-top: 60px; */
     max-height: 430px;
     overflow: auto;
 }

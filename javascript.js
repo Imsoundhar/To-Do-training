@@ -21,6 +21,10 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
     const starIcon = document.getElementsByClassName("star-icon");
     const userTaskContainer = document.getElementById("user-task-container");
     const taskStatusHeaderContainer = document.getElementsByClassName("task-status-header");
+    const taskDetailStarIcon = document.getElementById("task-detail-star-icon");
+    const taskDetailCompletedIcon = document.getElementById("task-detail-completed-icon");
+    const detailHeader = document.getElementsByClassName("detail-header")[0];
+    let detailHeaderTitleWrapper;
 
     let listOfCategories = [];
     let listOfTask = [];
@@ -233,11 +237,20 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
     function renderAllTask() {
         let existingTasks = getTask("tasks");
         taskList.innerHTML = "";
+        let completedCount = 0;
         existingTasks.then((tasks) => {
             listOfTask = tasks;
-            tasks.forEach((element) => {
-                if (element.categoryIds == selectedCategory.id) {
-                    renderTask(element);
+            tasks.forEach((task) => {
+                if (task.categoryIds == selectedCategory.id) {
+                    if (task.isCompleted) {
+                        if (completedCount == 0) {
+                            displayCompleted();
+                        }
+                        completedCount++;
+                        renderTask(task, "beforeend");
+                    } else {
+                        renderTask(task, "afterbegin");
+                    }
                 }
             })
         });
@@ -269,10 +282,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * function.
      * @param task - {
      */
-    function renderTask(task) {
-        const userTaskInfoDiv = document.createElement("div");
-        userTaskInfoDiv.id = task.id;
-        userTaskInfoDiv.className = "user-task-info";
+    function renderTask(task, alignOrder) {
+        const userTaskInfoDiv = createElement("div", { id: task.id, className: "user-task-info" });
         const taskName = document.createElement("p");
         const taskNameNode = document.createTextNode(task.name);
         taskName.innerHTML = taskNameNode.textContent;
@@ -284,14 +295,43 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         userTaskItem.appendChild(generateCompletedTask(task));
         userTaskItem.appendChild(userTaskInfoDiv);
         userTaskItem.appendChild(generateImportantTask(task));
-        if (task.isCompleted) {
-            taskList.insertAdjacentElement("beforeend", displayCompleted());
-            taskList.appendChild(userTaskItem);
-        } else {
-            taskList.appendChild(userTaskItem);
-            taskList.insertBefore(userTaskItem, taskList.children[0]);
-        }
+        taskList.appendChild(userTaskItem);
+        taskList.insertAdjacentElement(alignOrder, userTaskItem);
         eventListener();
+    }
+
+    function createElement(elementName, attributes) {
+        const element = document.createElement(elementName);
+        if (attributes.id != "") {
+            element.setAttribute('id', attributes.id);
+        }
+
+        if (attributes.className != "") {
+            element.setAttribute('class', attributes.className);
+        }
+        return element;
+    }
+
+    function displayCompleted() {
+        let completedCount = 0;
+        for (let index = 0; index < listOfTask.length; index++) {
+            if (listOfTask[index].isCompleted == true) {
+                completedCount++;
+            }
+        }
+        return displayCompletedTaskHeader(completedCount);
+    }
+
+    function displayCompletedTaskHeader(completedCount) {
+        const taskStatusHeaderContainer = document.createElement("div");
+        taskStatusHeaderContainer.className = "task-status-header";
+        const i = document.createElement('i');
+        i.className = "fa-solid fa-caret-right";
+        const taskStatusHeaderName = document.createElement("p");
+        taskStatusHeaderName.innerHTML = "completed " + completedCount;
+        taskStatusHeaderContainer.appendChild(i);
+        taskStatusHeaderContainer.appendChild(taskStatusHeaderName);
+        return taskList.appendChild(taskStatusHeaderContainer);
     }
 
     /**
@@ -316,50 +356,25 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function markCompletedTick(event) {
         if (event.type == "click") {
+            detailHeaderTitle.innerHTML = "";
             for (let index = 0; index < listOfTask.length; index++) {
                 if (listOfTask[index].id == event.currentTarget.id) {
                     if (listOfTask[index].isCompleted == false) {
                         listOfTask[index].isCompleted = true;
                         let addedTask = savedTask(listOfTask[index], "POST", "task");
                         addedTask.then(renderTaskForCategory());
+                        renderTaskDetailContainer(listOfTask[index]);
                     } else {
                         listOfTask[index].isCompleted = false;
                         let addedTask = savedTask(listOfTask[index], "POST", "task");
                         addedTask.then(renderTaskForCategory());
+                        renderTaskDetailContainer(listOfTask[index]);
                     }
                 }
             }
         }
-        // eventListener();
     }
 
-
-    function displayCompleted() {
-        let completedCount = 0;
-        for (let index = 0; index < listOfTask.length; index++) {
-            if (listOfTask[index].isCompleted == true) {
-                completedCount++;
-            }
-        }
-        if (completedCount > 0) {
-            return displayCompletedTaskHeader(completedCount);
-        } else {
-            completedCount = 0;
-        }
-        eventListener();
-    }
-
-    function displayCompletedTaskHeader(completedCount) {
-        const taskStatusHeaderContainer = document.createElement("div");
-        taskStatusHeaderContainer.className = "task-status-header";
-        const i = document.createElement('i');
-        i.className = "fa-solid fa-caret-right";
-        const taskStatusHeaderName = document.createElement("p");
-        taskStatusHeaderName.innerHTML = "completed " +  completedCount;
-        taskStatusHeaderContainer.appendChild(i);
-        taskStatusHeaderContainer.appendChild(taskStatusHeaderName);
-        return taskList.appendChild(taskStatusHeaderContainer);
-    }
 
     /**
      * If the event type is a click, then loop through the tasks array and if the event target id is
@@ -369,16 +384,19 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function markAsImportant(event) {
         if (event.type == "click") {
+            detailHeaderTitle.innerHTML = "";
             for (let index = 0; index < listOfTask.length; index++) {
                 if (listOfTask[index].id == event.currentTarget.id) {
                     if (listOfTask[index].isImportant == false) {
                         listOfTask[index].isImportant = true;
                         let addedTask = savedTask(listOfTask[index], "POST", "task");
                         addedTask.then(renderTaskForCategory());
+                        renderTaskDetailContainer(listOfTask[index]);
                     } else {
                         listOfTask[index].isImportant = false;
                         let addedTask = savedTask(listOfTask[index], "POST", "task");
                         addedTask.then(renderTaskForCategory());
+                        renderTaskDetailContainer(listOfTask[index]);
                     }
                 }
             }
@@ -386,6 +404,24 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         eventListener();
     }
 
+    const detailHeaderTitle = document.createElement("div");
+
+
+    function renderTaskDetailContainer(task) {
+        detailHeaderTitle.className = "detail-header-title-wrapper";
+        const inputContainer = document.createElement("div");
+        inputContainer.className = "task-content";
+        const inputSpace = document.createElement("input");
+        inputSpace.type = "input";
+        inputSpace.placeholder = task.name;
+        inputSpace.setAttribute("id", "user-selected-task");
+        inputContainer.appendChild(inputSpace);
+        detailHeaderTitle.appendChild(generateCompletedTask(task));
+        detailHeaderTitle.appendChild(inputContainer);
+        detailHeaderTitle.appendChild(generateImportantTask(task));
+        detailHeader.appendChild(detailHeaderTitle);
+        detailHeader.insertBefore(detailHeaderTitle, detailHeader.children[0]);
+    }
     /**
      * It creates a div element with a class of "star-icon" and an id of the task id. It then creates an
      * i element with the same id. If the task is important, it adds a class of "star-icon-mark" to the
@@ -441,10 +477,12 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * @param event - The event that triggered the function.
      */
     function userSpecificTask(event) {
+        detailHeaderTitle.innerHTML = "";
         for (let index = 0; index < listOfTask.length; index++) {
             if (listOfTask[index].id == event.currentTarget.id) {
                 selectedTask = listOfTask[index];
                 openSidePanel(selectedTask);
+                renderTaskDetailContainer(selectedTask);
             }
         }
         eventListener();
@@ -453,12 +491,11 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
     /**
      * When the user clicks on a task, the task's details are displayed in the right panel.
      */
-    function openSidePanel(selectedTask) {
+    function openSidePanel(task) {
         detailedTaskContainer.id = "task-detail-container";
         centerRightContainer.className = "center-container";
-        userSelectedTask.value = selectedTask.name;
-        inputForAddNote.value = selectedTask.note;
-        let addedTask = savedTask(selectedTask, "POST", "task");
+        inputForAddNote.value = task.note;
+        let addedTask = savedTask(task, "POST", "task");
         addedTask.then(renderTaskForCategory());
         eventListener();
     }

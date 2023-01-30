@@ -1,207 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <script src="https://kit.fontawesome.com/152a7fb490.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <script
+      src="https://kit.fontawesome.com/152a7fb490.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="Css/style.css" />
     <title>To Do</title>
-</head>
+  </head>
 
-<body>
-    <!-- container  -->
+  <body>
     <div class="container">
-        <!-- top container  -->
-        <div class="top-container">
-            <div class="todo-link">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-            <div class="todo-title">
-                <p>To do</p>
-            </div>
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
-            <div class="settings-icon">
-                <i class="fa-solid fa-gesar"></i>
-            </div>
-            <div class="question-icon">
-                <i class="fa-solid fa-question"></i>
-            </div>
+      <div class="top-container">
+        <div class="todo-link">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
-
-        <!-- left container -->
-        <div class="left-container">
-            <div class="navigation-bar">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-
-            <!-- left side content  -->
-            <div class="left-side-content">
-                <ul id="user-list-un-order">
-                </ul>
-            </div>
-
-            <!-- new list information -->
-            <div class="new-list-info">
-                <div class="new-list">
-                    <i class="fa-solid fa-plus"></i>
-                    <div class="add-new-list">
-                        <input id="new-list-item" type="text" placeholder="New List">
-                    </div>
-                </div>
-                <div class="new-list-icon">
-                    <i class="fa-regular fa-square-plus"></i>
-                </div>
-            </div>
-
-            <!-- apps -->
-            <div class="apps-container">
-                <div class="bottom-app">
-                    <i class="fa-regular fa-envelope"></i>
-                </div>
-                <div class="bottom-app">
-                    <i class="fa-regular fa-calendar"></i>
-                </div>
-                <div class="bottom-app">
-                    <i class="fa-solid fa-user-group"></i>
-                </div>
-                <div class="bottom-app">
-                    <i class="fa-solid fa-paperclip"></i>
-                </div>
-                <div class="bottom-app">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-            </div>
+        <div class="todo-title">
+          <p>To do</p>
         </div>
-
-        <div class="center-right-container" id="center-right-container">
-            <div id="task-info">
-                <!-- <div class="task-title">
-                    <i class="fa-regular fa-sun"></i>
-                    <p id="center-myday">My day</p>
-                    <p>...</p>
-                </div>
-                <div class="task-feature">
-                    <div class="sort">
-                        <p>Sort</p>
-                    </div>
-                    <div class="suggestions">
-                        <p>Suggestions</p>
-                    </div>
-                </div>
-                <div id="day"></div>  -->
-            </div>
-
-            <div class="add-task-container">
-                <div class="add-task-input-container">
-                    <div class="task-radio">
-                        <i class="fa-regular fa-circle"></i>
-                    </div>
-                    <div class="task-input-container">
-                        <input id="center-task-input" type="text" placeholder="Add a task">
-                    </div>
-                </div>
-                <div class="add-task-feature-container">
-                    <div class="add-task-feature">
-                        <i class="fa-regular fa-calendar-days"></i>
-                        <i class="fa-regular fa-bell"></i>
-                        <i class="fa-solid fa-repeat"></i>
-                    </div>
-                    <button id="add-button" type="button">Add</button>
-                </div>
-            </div>
-            <div class="user-task-container" id="user-task-container">
-                <ul id="user-task-ul">
-                    <!-- <div class="user-task-items">
-                        <div class="task-radio">
-                            <i class="fa-regular fa-circle"></i>
-                        </div>
-                        <div class="user-task-info">
-                            <p>test</p>
-                            <p>task</p>
-                        </div>
-                        <div class="star-icon">
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class = "completedTask">
-                        <div class="task-radio">
-                            <i class="fa-regular fa-circle"></i>
-                        </div>
-                        <div class="user-task-info">
-                            <p>test</p>
-                            <p>task</p>
-                        </div>
-                        <div class="star-icon">
-                            <i class="fa-regular fa-star"></i>
-                        </div>    
-                    <div>
-                        -->
-                    <!-- <div class="task-status-header">
-                        <i class="fa-solid fa-greater-than"></i>
-                    <p>completed</p>
-                </div> -->
-                </ul>
-            </div>
+        <div class="search-bar">
+          <i class="fa-solid fa-magnifying-glass"></i>
         </div>
-
-        <div class="task-detail-container" id="task-detail-container">
-            <div class="detail-header" id="detail-header">
-                <div id="task-detail-header"></div>
-                <!-- <div class="detail-header-title-wrapper">
-                    <i class="fa-regular fa-circle" id="task-detail-completed-icon"></i>
-                    <div class="task-content">
-                        <input type="text" placeholder="Task" id="user-selected-task"></input>
-                    </div>
-                    <div class="star-icon">
-                        <i class="fa-regular fa-star" id="task-detail-star-icon"></i>
-                    </div> 
-                </div>  -->
-                <div class="task-elaborate-features">
-                    <div class="base-add-container">
-                        <i class="fa-regular fa-circle"></i>
-                        <input type="text" id="add-step" placeholder="Add step">
-                    </div>
-                    <div class="add-to-my-day-container">
-                        <i class="fa-solid fa-sun"></i>
-                        <button>Add to My Day</button>
-                    </div>
-                    <div class="task-plan-container">
-                        <i class="fa-regular fa-bell"></i>
-                        <button>Remind me</button>
-                    </div>
-                    <div class="task-plan-container">
-                        <i class="fa-regular fa-calendar"></i>
-                        <button>Add due date</button>
-                    </div>
-                    <div class="task-plan-container">
-                        <i class="fa-solid fa-repeat"></i>
-                        <button>Repeat</button>
-                    </div>
-                    <div class="pick-category-container">
-                        <i class="fa-solid fa-tag"></i>
-                        <input type="text" placeholder="Pick a category" id="pick-category"></input>
-                    </div>
-                    <div class="add-to-my-day-container">
-                        <i class="fa-solid fa-paperclip"></i>
-                        <button>Add file</button>
-                    </div>
-                    <div class="add-note-container">
-                        <input type="text" placeholder="Add a note" id="add-note-input"></input>
-                        <p>Update few seconds ago</p>
-                    </div>
-                </div>
-            </div>
-            <div class="task-detail-footer">
-                <button id="close-side-panel"><i class="fa-solid fa-right-to-bracket"></i></button>
-                <p>created today</p>
-                <i class="fa-regular fa-trash-can"></i>
-            </div>
+        <div class="settings-icon">
+          <i class="fa-solid fa-gesar"></i>
         </div>
-        <script type="module" src="javascript.js"></script>
-</body>
+        <div class="question-icon">
+          <i class="fa-solid fa-question"></i>
+        </div>
+      </div>
 
+      <div class="left-container" id="left-container">
+        <div class="navigation-bar">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+        <div class="left-side-content">
+          <ul id="user-list-un-order"></ul>
+        </div>
+        <div class="new-list-info">
+          <div class="new-list">
+            <i class="fa-solid fa-plus"></i>
+            <div class="add-new-list">
+              <input id="new-list-item" type="text" placeholder="New List" />
+            </div>
+          </div>
+          <div class="new-list-icon">
+            <i class="fa-regular fa-square-plus"></i>
+          </div>
+        </div>
+        <div class="apps-container">
+          <div class="bottom-app">
+            <i class="fa-regular fa-envelope"></i>
+          </div>
+          <div class="bottom-app">
+            <i class="fa-regular fa-calendar"></i>
+          </div>
+          <div class="bottom-app">
+            <i class="fa-solid fa-user-group"></i>
+          </div>
+          <div class="bottom-app">
+            <i class="fa-solid fa-paperclip"></i>
+          </div>
+          <div class="bottom-app">
+            <i class="fa-solid fa-check"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="center-right-container" id="center-right-container">
+        <div id="task-info"></div>
+        <div class="add-task-container">
+          <div class="add-task-input-container">
+            <div class="task-radio">
+              <i class="fa-regular fa-circle"></i>
+            </div>
+            <div class="task-input-container">
+              <input
+                id="center-task-input"
+                type="text"
+                placeholder="Add a task"
+              />
+            </div>
+          </div>
+          <div class="add-task-feature-container">
+            <div class="add-task-feature">
+              <i class="fa-regular fa-calendar-days"></i>
+              <i class="fa-regular fa-bell"></i>
+              <i class="fa-solid fa-repeat"></i>
+            </div>
+            <button id="add-button" type="button">Add</button>
+          </div>
+        </div>
+        <div class="user-task-container" id="user-task-container">
+          <ul id="user-task-ul"></ul>
+        </div>
+      </div>
+
+      <div class="task-detail-container" id="task-detail-container">
+        <div class="detail-header" id="detail-header">
+          <div id="task-detail-header"></div>
+          <div class="task-elaborate-features">
+            <div class="base-add-container">
+              <i class="fa-regular fa-circle"></i>
+              <input type="text" id="add-step" placeholder="Add step" />
+            </div>
+            <div class="add-to-my-day-container">
+              <i class="fa-solid fa-sun"></i>
+              <button>Add to My Day</button>
+            </div>
+            <div class="task-plan-container">
+              <i class="fa-regular fa-bell"></i>
+              <button>Remind me</button>
+            </div>
+            <div class="task-plan-container">
+              <i class="fa-regular fa-calendar"></i>
+              <button>Add due date</button>
+            </div>
+            <div class="task-plan-container">
+              <i class="fa-solid fa-repeat"></i>
+              <button>Repeat</button>
+            </div>
+            <div class="pick-category-container">
+              <i class="fa-solid fa-tag"></i>
+              <input
+                type="text"
+                placeholder="Pick a category"
+                id="pick-category"
+              />
+            </div>
+            <div class="add-to-my-day-container">
+              <i class="fa-solid fa-paperclip"></i>
+              <button>Add file</button>
+            </div>
+            <div class="add-note-container">
+              <input type="text" placeholder="Add a note" id="add-note-input" />
+              <p>Update few seconds ago</p>
+            </div>
+          </div>
+        </div>
+        <div class="task-detail-footer">
+          <button id="close-side-panel">
+            <i class="fa-solid fa-right-to-bracket"></i>
+          </button>
+          <p>created today</p>
+          <i class="fa-regular fa-trash-can"></i>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="JavaScript/to-do.js"></script>
+  </body>
 </html>

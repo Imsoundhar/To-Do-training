@@ -1,6 +1,5 @@
-/* The above code is a to-do list application. It allows the user to create a category, add a task to a
-category, and add notes to a task. */
-import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
+/* The above code is creating a to-do list application. */
+import { saveCategories, saveTask, getCategories, getTask } from "./service-api.js";
 
 (function () {
 
@@ -19,6 +18,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
     const TASK_RADIO_BUTTON = document.getElementsByClassName("task-radio");
     const STAR_ICON = document.getElementsByClassName("star-icon");
     const TASK_DETAIL_HEADER_CONTAINER = document.getElementById("task-detail-header");
+    const NAVIGATION_BAR = document.getElementsByClassName("navigation-bar");
+    const LEFT_CONTAINER = document.getElementById("left-container");
 
     let listOfCategories = [];
     let listOfTask = [];
@@ -45,6 +46,10 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         ADD_BUTTON_FOR_TASK.addEventListener("click", addTask);
         SIDE_PANEL_CLOSE_BUTTON.addEventListener("click", closeSidePanel);
 
+        for (let index = 0; index < NAVIGATION_BAR.length; index++) {
+            NAVIGATION_BAR[index].addEventListener("click", closeCategoryPanel);
+        }
+
         for (let index = 0; index < USER_TASK_INFO.length; index++) {
             USER_TASK_INFO[index].addEventListener("click", userSpecificTask);
         }
@@ -62,9 +67,55 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         }
     }
 
+
+    function openSidePanel(task) {
+        if (CENTER_RIGHT_CONTAINER.className == "center-right-container" || CENTER_RIGHT_CONTAINER.className == "center-container") {
+            CENTER_RIGHT_CONTAINER.className = "center-container"
+        } else {
+            CENTER_RIGHT_CONTAINER.className = "center-left-container";
+        }
+        DETAILED_TASK_CONTAINER.id = "task-detail-container";
+        INPUT_FOR_ADD_NOTE.value = task.note;
+        let addedTask = saveTask(task, "POST", "task");
+        addedTask.then(renderAllTask());
+    }
+
+
+    function openCategoryPanel(event) {
+        if (event.type == "click") {
+            if (CENTER_RIGHT_CONTAINER.className == "center-full-container") {
+                CENTER_RIGHT_CONTAINER.className = "center-right-container";
+            } else {
+                CENTER_RIGHT_CONTAINER.className = "center-container";
+            }
+            LEFT_CONTAINER.classList.remove("hide-left-container");
+        }
+    }
+
+    /**
+     * The function is called when a user clicks on a category in the side panel. The function then
+     * gets the title of the category that was clicked on and then closes the side panel.
+     * @param event - The event object that is passed to the function.
+     */
     function showSelectedCategory(event) {
         getSelectedCategoryTitle(event.currentTarget.id);
         closeSidePanel(event);
+    }
+
+    /**
+     * If the event type is a click, then hide the left container and change the class name of the
+     * center-right container to center-full-container.
+     * @param event - The event object.
+     */
+    function closeCategoryPanel(event) {
+        if (event.type == "click") {
+            LEFT_CONTAINER.classList.add("hide-left-container");
+            if (CENTER_RIGHT_CONTAINER.className == "center-right-container") {
+                CENTER_RIGHT_CONTAINER.className = "center-full-container";
+            } else {
+                CENTER_RIGHT_CONTAINER.className = "center-left-container";
+            }
+        }
     }
 
     /**
@@ -78,16 +129,14 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                 name: CATEGORY_INPUT.value,
                 iconClass: "fa-solid fa-list",
             };
-            let addedCategoryId = addCategories(newUserCategory, "POST", "category");
+            let addedCategoryId = saveCategories(newUserCategory, "POST", "category");
             addedCategoryId.then(addedCategoryId => {
                 getCategory();
                 getSelectedCategoryTitle(addedCategoryId);
             });
             CATEGORY_INPUT.value = "";
         }
-        eventListener();
     }
-
 
     /**
      * GetCategory() is a function that gets the categories from the database and renders them to the
@@ -97,9 +146,9 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         let existingCategories = getCategories("categories");
         existingCategories.then((categories) => {
             CATEGORY_LIST.innerHTML = "";
-            categories.forEach((element) => {
-                listOfCategories.push(element);
-                renderCategory(element);
+            categories.forEach((category) => {
+                listOfCategories.push(category);
+                renderCategory(category);
             })
         });
     }
@@ -109,16 +158,11 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function renderCategory(category) {
         selectedCategory = category;
-        const li = document.createElement("li");
-        li.id = category.id;
-        const div = document.createElement("div");
-        div.className = "user-list";
-        const i = document.createElement("i");
-        i.className = category.iconClass;
-        const p = document.createElement("p");
-        p.className = "left-notes-title";
-        const node = document.createTextNode(category.name);
-        p.innerHTML = node.textContent;
+        const li = createElement("li", { id: category.id, className: "" });
+        const div = createElement("div", { id: "", className: "user-list" });
+        const i = createElement("i", { id: "", className: category.iconClass });
+        const p = createElement("p", { id: "", className: "left-notes-title" });
+        p.innerHTML = category.name;
         div.appendChild(i);
         div.appendChild(p);
         li.appendChild(div);
@@ -146,7 +190,6 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                 }
             })
         });
-        eventListener();
     }
 
     /**
@@ -154,22 +197,20 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * Then it will give the task details elaborately.
      */
     function renderSelectedCategoryTitle(category) {
+        CENTER_RIGHT_CONTAINER.className = "center-right-container"
         selectedCategory = category;
-        const taskTitle = document.createElement("div");
-        taskTitle.className = "task-title";
-        const i = document.createElement("i");
-        i.className = category.iconClass;
+        const taskTitle = createElement("div", { id: "", className: "task-title" });
+        const i = createElement("i", { id: "categoryIcon", className: category.iconClass });
+        i.addEventListener("click", openCategoryPanel);
         const taskName = document.createElement("p");
-        const taskNameNode = document.createTextNode(category.name);
-        taskName.innerHTML = taskNameNode.textContent;
+        taskName.innerHTML = category.name;
         const dotsNearTitle = document.createElement("p");
-        const dotsNearTitleNode = document.createTextNode("...");
-        dotsNearTitle.innerHTML = dotsNearTitleNode.textContent;
+        dotsNearTitle.innerHTML = "...";
         taskTitle.appendChild(i);
         taskTitle.appendChild(taskName);
         taskTitle.appendChild(dotsNearTitle);
         TASK_INFO.appendChild(taskTitle);
-        if (1 == category.id) {
+        if (category.id == 1) {
             TASK_INFO.appendChild(currentDate());
         }
         renderAllTask();
@@ -186,7 +227,9 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
         if ((event.type === "click" || event.key === "Enter") && TASK_INPUT.value != 0) {
             let categoryIds = [];
             categoryIds.push(selectedCategory.id);
-            categoryIds.splice(0, 0, 5);
+            if (selectedCategory.id < 5) {
+                categoryIds.splice(0, 0, 5);
+            }
             let importantStatus;
             if (selectedCategory.id == 2) {
                 importantStatus = true;
@@ -200,11 +243,10 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                 isCompleted: false,
                 isImportant: importantStatus
             };
-            let addedTask = savedTask(task, "POST", "task");
+            let addedTask = saveTask(task, "POST", "task");
             addedTask.then(renderAllTask());
             selectedTask = task;
         }
-        eventListener();
     }
 
     /**
@@ -236,39 +278,43 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                 }
             })
         });
-        eventListener();
     }
 
+
     /**
-     * It creates a div element, adds a class name, adds a paragraph element, adds a text node, adds a
-     * child element, calls a function, creates another div element, adds a class name, adds a child
-     * element, adds another child element, adds another child element, adds a child element, and calls a
-     * function.
-     * @param task - {
+     * It creates a div element, appends a paragraph element to it, and then appends the div element to
+     * a parent element.
+     * </code>
+     * @param task - is an object that contains the task information
+     * @param alignOrder - "beforeend" or "afterbegin"
      */
     function renderTask(task, alignOrder) {
         const userTaskInfoDiv = createElement("div", { id: task.id, className: "user-task-info" });
         const taskName = document.createElement("p");
-        const taskNameNode = document.createTextNode(task.name);
-        taskName.innerHTML = taskNameNode.textContent;
+        taskName.innerHTML = task.name;
         userTaskInfoDiv.appendChild(generateCompletedTaskDecoration(task, taskName));
         getTypeOfCategory(userTaskInfoDiv);
-        const userTaskItem = document.createElement("div");
-        userTaskItem.id = task.id;
-        userTaskItem.className = "user-task-items";
-        userTaskItem.appendChild(generateCompletedTask(task));
+        const userTaskItem = createElement("div", { id: task.id, className: "user-task-items" });
+        userTaskItem.appendChild(generateCompletedTaskIcon(task));
         userTaskItem.appendChild(userTaskInfoDiv);
-        userTaskItem.appendChild(generateImportantTask(task));
+        userTaskItem.appendChild(generateImportantTaskIcon(task));
         TASK_LIST.appendChild(userTaskItem);
         TASK_LIST.insertAdjacentElement(alignOrder, userTaskItem);
         eventListener();
     }
 
+    /**
+     * If the task is completed, add the class "completed-text-strike" to the task name. Otherwise,
+     * remove the class "completed-text-strike" from the task name.
+     * @param task - the task object
+     * @param taskName - the name of the task
+     * @returns The taskName is being returned.
+     */
     function generateCompletedTaskDecoration(task, taskName) {
         if (task.isCompleted) {
-            taskName.classList.add("line-through");
+            taskName.classList.add("completed-text-strike");
         } else {
-            taskName.classList.remove("line-through");
+            taskName.classList.remove("completed-text-strike");
         }
         return taskName;
     }
@@ -282,10 +328,10 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function createElement(elementName, attributes) {
         const element = document.createElement(elementName);
+
         if (attributes.id != "") {
             element.setAttribute('id', attributes.id);
         }
-
         if (attributes.className != "") {
             element.setAttribute('class', attributes.className);
         }
@@ -315,10 +361,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * @returns the taskList.appendChild(taskStatusHeaderContainer);
      */
     function displayCompletedTaskHeader(completedCount) {
-        const taskStatusHeaderContainer = document.createElement("div");
-        taskStatusHeaderContainer.className = "task-status-header";
-        const i = document.createElement('i');
-        i.className = "fa-solid fa-caret-right";
+        const taskStatusHeaderContainer = createElement("div", { id: "", className: "task-status-header" });
+        const i = createElement("i", { id: "", className: "fa-solid fa-caret-right" });
         const taskStatusHeaderName = document.createElement("p");
         taskStatusHeaderName.innerHTML = "completed " + completedCount;
         taskStatusHeaderContainer.appendChild(i);
@@ -334,8 +378,7 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
     function getTypeOfCategory(userTaskInfoDiv) {
         if (selectedCategory.id != 5) {
             const defaultTaskLabel = document.createElement("p");
-            const defaultTaskLabelNode = document.createTextNode("task");
-            defaultTaskLabel.innerHTML = defaultTaskLabelNode.textContent;
+            defaultTaskLabel.innerHTML = "task";
             userTaskInfoDiv.appendChild(defaultTaskLabel);
         }
     }
@@ -356,9 +399,11 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                     } else {
                         listOfTask[index].isCompleted = false;
                     }
-                    let addedTask = savedTask(listOfTask[index], "POST", "task");
-                    addedTask.then(() => {renderAllTask(),
-                    renderTaskDetailContainer(listOfTask[index])});
+                    let addedTask = saveTask(listOfTask[index], "POST", "task");
+                    addedTask.then(() => {
+                        renderAllTask(),
+                            renderTaskDetailContainer(listOfTask[index])
+                    });
                 }
             }
         }
@@ -387,13 +432,12 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                             }
                         }
                     }
-                    let addedTask = savedTask(listOfTask[index], "POST", "task");
+                    let addedTask = saveTask(listOfTask[index], "POST", "task");
                     addedTask.then(renderAllTask());
                     renderTaskDetailContainer(listOfTask[index]);
                 }
             }
         }
-        eventListener();
     }
 
     /**
@@ -405,19 +449,16 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * @param task - {
      */
     function renderTaskDetailContainer(task) {
-        const detailHeaderTitle = document.createElement("div");
-        detailHeaderTitle.className = "detail-header-title-wrapper";
-        const inputContainer = document.createElement("div");
-        inputContainer.className = "task-content";
-        const inputSpace = document.createElement("input");
+        const detailHeaderTitle = createElement("div", { id: "", className: "detail-header-title-wrapper" });
+        const inputContainer = createElement("div", { id: "", className: "task-content" });
+        const inputSpace = createElement("input", { id: "user-selected-task", className: "" });
         inputSpace.type = "input";
         inputSpace.value = task.name;
         generateCompletedTaskDecoration(task, inputSpace);
-        inputSpace.setAttribute("id", "user-selected-task");
         inputContainer.appendChild(inputSpace);
-        detailHeaderTitle.appendChild(generateCompletedTask(task));
+        detailHeaderTitle.appendChild(generateCompletedTaskIcon(task));
         detailHeaderTitle.appendChild(inputContainer);
-        detailHeaderTitle.appendChild(generateImportantTask(task));
+        detailHeaderTitle.appendChild(generateImportantTaskIcon(task));
         TASK_DETAIL_HEADER_CONTAINER.appendChild(detailHeaderTitle);
     }
 
@@ -430,10 +471,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * @param task - the task object
      * @returns the starIconContainer.
      */
-    function generateImportantTask(task) {
-        const starIconContainer = document.createElement("div");
-        starIconContainer.id = task.id;
-        starIconContainer.className = "star-icon";
+    function generateImportantTaskIcon(task) {
+        const starIconContainer = createElement("div", { id: task.id, className: "star-icon" });
         const i = document.createElement("i");
         i.id = task.id;
         if (task.isImportant == true) {
@@ -452,10 +491,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      * @param index - the index of the task in the tasks array
      * @returns The radioButtonContainer is being returned.
      */
-    function generateCompletedTask(task) {
-        const radioButtonContainer = document.createElement("div");
-        radioButtonContainer.id = task.id;
-        radioButtonContainer.className = "task-radio";
+    function generateCompletedTaskIcon(task) {
+        const radioButtonContainer = createElement("div", { id: task.id, className: "task-radio" });
         const i = document.createElement("i");
         i.id = task.id;
         if (task.isCompleted == true) {
@@ -483,19 +520,6 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
                 renderTaskDetailContainer(selectedTask);
             }
         }
-        eventListener();
-    }
-
-    /**
-     * When the user clicks on a task, the task's details are displayed in the right panel.
-     */
-    function openSidePanel(task) {
-        DETAILED_TASK_CONTAINER.id = "task-detail-container";
-        CENTER_RIGHT_CONTAINER.className = "center-container";
-        INPUT_FOR_ADD_NOTE.value = task.note;
-        let addedTask = savedTask(task, "POST", "task");
-        addedTask.then(renderAllTask());
-        eventListener();
     }
 
     /**
@@ -504,9 +528,8 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function addNotes() {
         selectedTask.note = INPUT_FOR_ADD_NOTE.value;
-        let addedTask = savedTask(selectedTask, "POST", "task");
+        let addedTask = saveTask(selectedTask, "POST", "task");
         addedTask.then(renderAllTask());
-        eventListener();
     }
 
     /**
@@ -517,10 +540,13 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function closeSidePanel(event) {
         if (event.type == "click") {
+            if (CENTER_RIGHT_CONTAINER.className == "center-container") {
+                CENTER_RIGHT_CONTAINER.className = "center-right-container";
+            } else {
+                CENTER_RIGHT_CONTAINER.className = "center-full-container";
+            }
             DETAILED_TASK_CONTAINER.id = "task-detail-container-hide-display";
-            CENTER_RIGHT_CONTAINER.className = "center-right-container";
         }
-        eventListener();
     }
 
     /**
@@ -528,7 +554,6 @@ import { getCategories, addCategories, savedTask, getTask } from "./backend.js";
      */
     function close() {
         DETAILED_TASK_CONTAINER.id = "task-detail-container-hide-display";
-        eventListener();
     }
 
     /**
